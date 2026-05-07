@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>АВТО МІКС — Авто з США · Автовикуп · Trade-IN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Russo+One&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --orange: #E8761A;
+  --orange-dark: #C05A0E;
+  --orange-light: #FAC75A;
+  --black: #111;
+  --text-muted: #888;
+  --white: #fff;
+  --bg: #111;
+  --bg2: #151515;
+  --bg3: #1a1a1a;
+  --bg4: #0f0f0f;
+  --bg5: #161616;
+  --border: #2a2a2a;
+  --border2: #252525;
+  --border3: #222;
+  --border4: #1e1e1e;
+  --border5: #1c1c1c;
+  --text: #fff;
+  --muted: #888;
+  --input-bg: #111;
+  --nav-bg: rgba(17,17,17,0.97);
+  --footer-bg: #0d0d0d;
+}
+body.light {
+  --bg: #f2f2f2; --bg2: #ffffff; --bg3: #ffffff; --bg4: #eaeaea; --bg5: #f7f7f7;
+  --border: #d8d8d8; --border2: #e0e0e0; --border3: #ddd; --border4: #e8e8e8; --border5: #ececec;
+  --text: #111; --muted: #666; --input-bg: #f7f7f7;
+  --nav-bg: rgba(255,255,255,0.97); --footer-bg: #e4e4e4;
+  --black: #f2f2f2; --white: #111; --text-muted: #666;
+}
+body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; }
+
+/* NAV */
+nav {
+  background: var(--nav-bg); border-bottom: 1px solid var(--border3);
+  padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between;
+  height: 60px; position: sticky; top: 0; z-index: 200; backdrop-filter: blur(8px);
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.nav-logo span { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; color: var(--text); }
+.nav-logo span b { color: var(--orange); font-family: 'Bebas Neue', sans-serif; }
+.nav-links { display: flex; flex-wrap: wrap; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; padding: 7px 11px; border-radius: 6px; transition: all 0.2s; cursor: pointer; }
+.nav-links a:hover, .nav-links a.active { color: var(--text); background: rgba(232,118,26,0.15); }
+.nav-links a.active { color: var(--orange); }
+.nav-cta { background: var(--orange); color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.nav-cta:hover { background: var(--orange-dark); }
+.theme-toggle { background: none; border: 1px solid var(--border); color: var(--text); width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+.theme-toggle:hover { border-color: var(--orange); background: rgba(232,118,26,0.1); }
+.admin-badge { display: none; background: rgba(232,118,26,0.15); border: 1px solid var(--orange); color: var(--orange); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+body.admin-mode .admin-badge { display: inline-block; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* TICKER */
+.ticker-wrap { width: 100%; background: var(--orange); overflow: hidden; padding: 7px 0; border-bottom: 2px solid var(--orange-dark); }
+.ticker-track { display: flex; width: max-content; animation: ticker-scroll 22s linear infinite; }
+.ticker-wrap:hover .ticker-track { animation-play-state: paused; }
+.ticker-item { white-space: nowrap; padding: 0 2.5rem; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; color: #fff; text-transform: uppercase; font-family: 'Russo One', sans-serif; }
+.ticker-item::after { content: '·'; margin-left: 2.5rem; opacity: 0.6; }
+@keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* HERO */
+.hero { position: relative; overflow: hidden; min-height: 460px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 0 2rem 3rem; text-align: center; }
+.hero-slideshow { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease-in-out; }
+.hero-slide.active { opacity: 1; }
+.hero-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center 55%; opacity: 0.7; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(10,8,5,0.3) 0%, rgba(10,8,5,0.1) 30%, rgba(10,8,5,0.55) 65%, rgba(10,8,5,0.93) 100%); pointer-events: none; }
+.hero-content { position: relative; z-index: 2; width: 100%; }
+.hero-badge { display: inline-block; background: rgba(232,118,26,0.2); border: 1px solid rgba(232,118,26,0.55); color: var(--orange-light); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 5px 16px; border-radius: 20px; margin-bottom: 1rem; }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 4px; font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; line-height: 1.1; margin-bottom: 0.5rem; text-shadow: 0 2px 20px rgba(0,0,0,0.8); }
+.hero h1 b { color: var(--orange); }
+.hero-tagline { font-size: 12px; color: #ccc; margin-bottom: 2rem; letter-spacing: 4px; text-transform: uppercase; text-shadow: 0 1px 8px rgba(0,0,0,0.9); }
+.hero-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.btn-primary { background: var(--orange); color: #fff; border: none; padding: 12px 26px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-primary:hover { background: var(--orange-dark); transform: translateY(-1px); }
+.btn-outline { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.35); padding: 12px 26px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(4px); }
+.btn-outline:hover { border-color: var(--orange); color: var(--orange); background: rgba(232,118,26,0.1); }
+
+/* HERO UPLOAD (multiple) */
+.hero-upload-wrap { position: absolute; bottom: 14px; right: 14px; z-index: 10; display: flex; gap: 8px; align-items: center; }
+.hero-upload-btn { background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 7px 13px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; backdrop-filter: blur(4px); transition: all 0.2s; }
+.hero-upload-btn:hover { background: rgba(232,118,26,0.8); border-color: var(--orange); }
+.hero-slide-indicator { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; gap: 6px; }
+.hero-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); border: none; cursor: pointer; transition: all 0.3s; }
+.hero-dot.active { background: var(--orange); width: 20px; border-radius: 4px; }
+
+/* FEATURES */
+.features-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border3); border-top: 1px solid var(--border3); border-bottom: 1px solid var(--border3); }
+.feature-item { background: var(--bg2); padding: 1.5rem 1.2rem; text-align: center; }
+.feature-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+.feature-item h3 { font-size: 13px; font-weight: 700; margin-bottom: 3px; color: var(--text); }
+.feature-item p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.section { padding: 3rem 2rem; background: var(--bg); }
+.section-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text); }
+.section-title b { color: var(--orange); }
+.section-sub { color: var(--muted); font-size: 13px; margin-bottom: 1.8rem; }
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.step-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem; text-align: center; }
+.step-num { width: 34px; height: 34px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.7rem; }
+.step-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 3px; color: var(--text); }
+.step-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+/* CARS */
+.cars-header { background: var(--bg4); border-bottom: 1px solid var(--border3); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.cars-header h2 { font-size: 1.3rem; font-weight: 800; color: var(--text); }
+.add-car-btn { background: var(--orange); color: #fff; border: none; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.add-car-btn:hover { background: var(--orange-dark); }
+.cars-filter { padding: 1rem 2rem; display: flex; gap: 8px; flex-wrap: wrap; background: var(--bg); border-bottom: 1px solid var(--border4); }
+.filter-btn { background: var(--bg3); color: var(--muted); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+.filter-btn.active, .filter-btn:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
+.cars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; padding: 1.5rem 2rem; background: var(--bg); }
+.car-card { background: var(--bg5); border: 1px solid var(--border2); border-radius: 14px; overflow: hidden; transition: all 0.25s; cursor: pointer; position: relative; }
+.car-card:hover { border-color: var(--orange); transform: translateY(-2px); }
+.car-status { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; z-index: 3; }
+.status-transit { background: rgba(232,118,26,0.2); color: var(--orange-light); border: 1px solid rgba(232,118,26,0.4); }
+.status-arrived { background: rgba(29,158,117,0.2); color: #5DCAA5; border: 1px solid rgba(29,158,117,0.4); }
+.status-sold { background: rgba(130,130,130,0.15); color: #888; border: 1px solid var(--border); }
+.car-body { padding: 1rem 1rem 1.1rem; }
+.car-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+.car-meta { font-size: 12px; color: var(--muted); display: flex; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.car-specs { font-size: 12px; color: var(--muted); display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.car-spec-tag { background: var(--bg3); border: 1px solid var(--border2); border-radius: 4px; padding: 2px 7px; font-size: 11px; color: var(--muted); }
+.car-price { font-size: 1.2rem; font-weight: 800; color: var(--orange); }
+.car-price span { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 4px; }
+
+/* GALLERY in cards */
+.car-gallery { position: relative; height: 175px; overflow: hidden; background: var(--bg3); }
+.car-gallery-img { width: 100%; height: 100%; object-fit: cover; display: none; cursor: zoom-in; }
+.car-gallery-img.active { display: block; }
+.gallery-nav { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; }
+.gallery-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; border: none; transition: background 0.2s; padding: 0; }
+.gallery-dot.active { background: #fff; }
+.gallery-arr { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 4; }
+.gallery-arr.prev { left: 6px; }
+.gallery-arr.next { right: 6px; }
+.gallery-arr:hover { background: var(--orange); }
+.gallery-count { position: absolute; bottom: 8px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; font-size: 11px; padding: 2px 7px; border-radius: 10px; z-index: 3; }
+
+/* ADMIN BUTTONS on card */
+.car-admin-btns { position: absolute; top: 8px; right: 8px; z-index: 5; display: none; flex-direction: column; gap: 4px; }
+body.admin-mode .car-admin-btns { display: flex !important; }
+.car-delete-btn { background: rgba(180,30,30,0.85); color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.car-delete-btn:hover { background: #c0392b; }
+.car-edit-btn { background: rgba(232,118,26,0.85); color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.car-edit-btn:hover { background: var(--orange-dark); }
+
+/* LIGHTBOX */
+.lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; }
+.lightbox.open { display: flex; }
+.lightbox-inner { position: relative; max-width: 90vw; max-height: 90vh; display: flex; align-items: center; justify-content: center; }
+.lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+.lightbox-close { position: fixed; top: 20px; right: 24px; background: rgba(255,255,255,0.15); color: #fff; border: none; width: 42px; height: 42px; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; z-index: 10; }
+.lightbox-close:hover { background: #c0392b; }
+.lightbox-prev, .lightbox-next { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.12); color: #fff; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.lightbox-prev { left: 16px; }
+.lightbox-next { right: 16px; }
+.lightbox-prev:hover, .lightbox-next:hover { background: var(--orange); }
+.lightbox-counter { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); color: #fff; padding: 5px 14px; border-radius: 20px; font-size: 13px; }
+.lightbox-thumbs { position: fixed; bottom: 55px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; max-width: 90vw; overflow-x: auto; padding: 6px; }
+.lightbox-thumb { width: 52px; height: 38px; object-fit: cover; border-radius: 4px; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; border: 2px solid transparent; flex-shrink: 0; }
+.lightbox-thumb.active { opacity: 1; border-color: var(--orange); }
+
+/* CAR DETAIL PAGE */
+.car-detail-page { display: none; }
+.car-detail-page.open { display: block; }
+.car-detail-back { display: flex; align-items: center; gap: 8px; padding: 1rem 1.5rem; background: var(--bg4); border-bottom: 1px solid var(--border3); cursor: pointer; color: var(--muted); font-size: 14px; font-weight: 600; transition: color 0.2s; }
+.car-detail-back:hover { color: var(--orange); }
+.car-detail-main { display: grid; grid-template-columns: 1.2fr 1fr; gap: 0; min-height: calc(100vh - 120px); }
+.car-detail-gallery { background: var(--bg4); padding: 1.5rem; }
+.car-detail-main-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 12px; cursor: zoom-in; margin-bottom: 10px; transition: opacity 0.3s; }
+.car-detail-thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
+.car-detail-thumb { width: 68px; height: 50px; object-fit: cover; border-radius: 6px; cursor: pointer; opacity: 0.6; border: 2px solid transparent; transition: all 0.2s; }
+.car-detail-thumb.active { opacity: 1; border-color: var(--orange); }
+.car-detail-info { padding: 2rem; border-left: 1px solid var(--border3); overflow-y: auto; }
+.car-detail-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.2; }
+.car-detail-price { font-size: 2rem; font-weight: 900; color: var(--orange); margin-bottom: 1.2rem; }
+.car-detail-status { display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 1.2rem; }
+.car-detail-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+.car-spec-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+.car-spec-item .spec-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+.car-spec-item .spec-val { font-size: 14px; font-weight: 700; color: var(--text); }
+.car-detail-desc { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; margin-bottom: 1.2rem; font-size: 14px; color: var(--muted); line-height: 1.7; }
+.car-detail-btns { display: flex; flex-direction: column; gap: 10px; }
+.btn-contact-big { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; }
+.btn-contact-big.orange { background: var(--orange); color: #fff; }
+.btn-contact-big.orange:hover { background: var(--orange-dark); }
+.btn-contact-big.green { background: #1db954; color: #fff; }
+.btn-contact-big.green:hover { background: #17a348; }
+.btn-contact-big.blue { background: #0088cc; color: #fff; }
+.btn-contact-big.blue:hover { background: #006aaa; }
+.car-detail-emoji-fallback { width: 100%; aspect-ratio: 16/9; background: var(--bg3); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 6rem; }
+@media(max-width:768px) {
+  .car-detail-main { grid-template-columns: 1fr; }
+  .car-detail-info { border-left: none; border-top: 1px solid var(--border3); }
+}
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--bg3); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; width: 100%; max-width: 560px; max-height: 93vh; overflow-y: auto; }
+.modal h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.3rem; color: var(--text); }
+.modal h3 b { color: var(--orange); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+.form-group input, .form-group select, .form-group textarea { background: var(--input-bg); border: 1px solid var(--border); color: var(--text); padding: 9px 11px; border-radius: 8px; font-size: 13px; outline: none; transition: border-color 0.2s; font-family: inherit; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--orange); }
+.form-group select option { background: var(--bg3); color: var(--text); }
+.form-group textarea { resize: vertical; min-height: 65px; }
+.modal-actions { display: flex; gap: 10px; margin-top: 1.3rem; }
+.btn-cancel { flex: 1; background: var(--border); color: var(--muted); border: none; padding: 11px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn-cancel:hover { background: var(--border2); }
+.btn-save { flex: 2; background: var(--orange); color: #fff; border: none; padding: 11px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.btn-save:hover { background: var(--orange-dark); }
+
+/* STATUS TOGGLE in modal */
+.status-toggle-group { display: flex; gap: 6px; }
+.status-toggle-btn { flex: 1; padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg4); color: var(--muted); font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; }
+.status-toggle-btn.active-transit { background: rgba(232,118,26,0.2); color: var(--orange-light); border-color: rgba(232,118,26,0.5); }
+.status-toggle-btn.active-arrived { background: rgba(29,158,117,0.2); color: #5DCAA5; border-color: rgba(29,158,117,0.5); }
+.status-toggle-btn.active-sold { background: rgba(130,130,130,0.15); color: #aaa; border-color: #555; }
+
+/* MULTI PHOTO */
+.multi-photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 6px; }
+.multi-photo-item { position: relative; aspect-ratio: 4/3; border-radius: 8px; overflow: hidden; background: var(--bg4); }
+.multi-photo-item img { width: 100%; height: 100%; object-fit: cover; }
+.multi-photo-del { position: absolute; top: 3px; right: 3px; background: rgba(0,0,0,0.7); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.multi-photo-del:hover { background: #c0392b; }
+.multi-photo-add { aspect-ratio: 4/3; border-radius: 8px; border: 2px dashed var(--border); background: var(--bg3); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; font-size: 1.4rem; color: var(--muted); transition: all 0.2s; }
+.multi-photo-add:hover { border-color: var(--orange); color: var(--orange); }
+
+/* TRADE IN */
+.tradein-hero { background: var(--bg4); padding: 3rem 2rem; text-align: center; border-bottom: 1px solid var(--border3); }
+.tradein-hero h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
+.tradein-hero h2 b { color: var(--orange); }
+.tradein-hero p { color: var(--muted); font-size: 14px; max-width: 480px; margin: 0 auto; line-height: 1.6; }
+.tradein-body { padding: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: var(--bg); }
+.tradein-card { background: var(--bg5); border: 1px solid var(--border2); border-radius: 16px; overflow: hidden; }
+.tradein-card-head { padding: 14px 18px; background: var(--bg3); border-bottom: 1px solid var(--border2); }
+.tradein-card-head h3 { font-size: 14px; font-weight: 700; color: var(--text); }
+.tradein-card-head p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.tradein-form { padding: 1.2rem; }
+.tf-group { margin-bottom: 14px; }
+.tf-group label { display: block; font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+.tf-group input, .tf-group select, .tf-group textarea { width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 8px; font-size: 13px; outline: none; transition: border-color 0.2s; font-family: inherit; }
+.tf-group input:focus, .tf-group select:focus, .tf-group textarea:focus { border-color: var(--orange); }
+.tf-group select option { background: var(--bg3); color: var(--text); }
+.tf-group textarea { resize: vertical; min-height: 70px; }
+.btn-tradein { width: 100%; background: var(--orange); color: #fff; border: none; padding: 13px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 4px; }
+.btn-tradein:hover { background: var(--orange-dark); }
+.tradein-how { background: var(--bg5); border: 1px solid var(--border2); border-radius: 16px; padding: 1.5rem; }
+.tradein-step { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border5); }
+.tradein-step:last-child { border-bottom: none; }
+.ts-num { width: 30px; height: 30px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.ts-text h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.ts-text p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.tradein-advantages { background: var(--bg3); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
+.adv-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border5); }
+.adv-item:last-child { border-bottom: none; }
+.adv-icon { font-size: 1.5rem; width: 36px; text-align: center; flex-shrink: 0; }
+.adv-text h4 { font-size: 13px; font-weight: 700; color: var(--text); }
+.adv-text p { font-size: 12px; color: var(--muted); }
+.tradein-success { display: none; background: rgba(29,158,117,0.1); border: 1px solid rgba(29,158,117,0.3); border-radius: 12px; padding: 1.2rem; text-align: center; margin-top: 12px; }
+.tradein-success.show { display: block; }
+.tradein-success h3 { color: #5DCAA5; font-size: 1rem; margin-bottom: 0.3rem; }
+.tradein-success p { color: var(--muted); font-size: 13px; }
+
+/* CAR SEARCH PAGE */
+.car-search-hero { background: var(--bg4); padding: 2.5rem 2rem; text-align: center; border-bottom: 1px solid var(--border3); }
+.car-search-hero h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.4rem; }
+.car-search-hero h2 b { color: var(--orange); }
+.car-search-hero p { color: var(--muted); font-size: 14px; max-width: 500px; margin: 0 auto; }
+.car-search-body { padding: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: var(--bg); }
+.car-search-card { background: var(--bg5); border: 1px solid var(--border2); border-radius: 16px; overflow: hidden; }
+.car-search-card-head { padding: 14px 18px; background: var(--bg3); border-bottom: 1px solid var(--border2); }
+.car-search-card-head h3 { font-size: 14px; font-weight: 700; color: var(--text); }
+.car-search-card-head p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.search-form { padding: 1.2rem; }
+.search-advantages { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.search-adv-item { display: flex; align-items: center; gap: 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+.search-adv-icon { font-size: 1.6rem; flex-shrink: 0; }
+.search-adv-text h4 { font-size: 13px; font-weight: 700; color: var(--text); }
+.search-adv-text p { font-size: 12px; color: var(--muted); }
+
+/* CONTACTS */
+.contact-hero { background: var(--bg4); border-bottom: 1px solid var(--border3); padding: 2rem; }
+.contact-hero h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.3rem; color: var(--text); }
+.contact-hero p { color: var(--muted); font-size: 13px; }
+.contact-body { padding: 1.5rem 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: var(--bg); }
+.contact-block { background: var(--bg5); border: 1px solid var(--border2); border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
+.contact-block:last-child { margin-bottom: 0; }
+.contact-block-title { padding: 12px 16px; background: var(--bg3); border-bottom: 1px solid var(--border2); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); }
+.contact-row { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-bottom: 1px solid var(--border5); text-decoration: none; color: var(--text); transition: background 0.15s; }
+.contact-row:hover { background: var(--bg3); }
+.contact-row:last-child { border-bottom: none; }
+.c-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+.contact-text-info h4 { font-size: 14px; font-weight: 600; color: var(--text); }
+.contact-text-info p { font-size: 12px; color: var(--muted); }
+.tiktok-profile-card { background: #0e0e1a; border: 1px solid #2a2040; border-radius: 12px; padding: 1.2rem; display: flex; align-items: center; gap: 14px; text-decoration: none; color: #fff; transition: border-color 0.2s; margin: 16px; }
+.tiktok-profile-card:hover { border-color: #ee1d52; }
+.tiktok-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #ee1d52, #ff6550); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; border: 2px solid #ee1d52; }
+.tiktok-info h4 { font-size: 15px; font-weight: 700; color: #fff; }
+.tiktok-info .tiktok-handle { color: #ee1d52; font-size: 13px; font-weight: 600; margin-top: 3px; }
+.tiktok-info p { font-size: 12px; color: #aaa; margin-top: 2px; }
+.tiktok-open-btn { display: block; text-align: center; margin: 0 16px 16px; background: #ee1d52; color: #fff; text-decoration: none; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; }
+.tiktok-open-btn:hover { background: #cc1040; }
+
+footer { background: var(--footer-bg); border-top: 1px solid var(--border3); padding: 1.5rem 2rem; text-align: center; font-size: 13px; color: var(--muted); }
+footer b { color: var(--orange); }
+.empty-state { padding: 3rem; text-align: center; color: var(--muted); grid-column: 1/-1; }
+.empty-state .big-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+
+/* SOLD OVERLAY */
+.sold-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 2; pointer-events: none; }
+.sold-overlay-text { background: rgba(130,130,130,0.8); color: #fff; font-size: 18px; font-weight: 800; padding: 8px 20px; border-radius: 8px; letter-spacing: 2px; transform: rotate(-12deg); }
+
+@media(max-width:600px) {
+  .features-strip { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .contact-body, .tradein-body, .car-search-body { grid-template-columns: 1fr; }
+  .nav-links a { font-size: 11px; padding: 5px 7px; }
+  .hero { min-height: 380px; }
+  .multi-photo-grid { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="showPage('home')"><span>АВТО <b>МІКС</b></span></div>
+  <div class="nav-links">
+    <a class="active" id="nav-home" onclick="showPage('home')">Головна</a>
+    <a id="nav-cars" onclick="showPage('cars')">Авто з США 🇺🇸</a>
+    <a id="nav-search" onclick="showPage('search')">🔍 Підбір авто</a>
+    <a id="nav-tradein" onclick="showPage('tradein')">Trade-IN</a>
+    <a id="nav-contact" onclick="showPage('contact')">Контакти</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <span class="admin-badge">🔐 Адмін</span>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Змінити тему">🌙</button>
+    <button class="theme-toggle" onclick="toggleAdmin()" title="Режим адміна">⚙️</button>
+    <button class="nav-cta" onclick="showPage('contact')">📞 Зв'язок</button>
+  </div>
+</nav>
+
+<!-- Firebase setup notice -->
+<div id="firebase-notice" style="display:none;background:#1a0f00;border-bottom:2px solid var(--orange);padding:12px 20px;font-size:13px;color:#ffcc88;">
+  ⚠️ <b>Потрібно налаштувати Firebase!</b> Відкрийте файл, знайдіть <code style="background:#333;padding:2px 6px;border-radius:4px;">firebaseConfig</code> і вставте свої дані з <a href="https://console.firebase.google.com" target="_blank" style="color:var(--orange)">console.firebase.google.com</a>
+  <button onclick="document.getElementById('firebase-notice').style.display='none'" style="float:right;background:none;border:none;color:#888;cursor:pointer;font-size:16px;">✕</button>
+</div>
+
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">🚗 Авто з США</span>
+    <span class="ticker-item">🔍 Підбір авто під замовлення</span>
+    <span class="ticker-item">🔄 Trade-IN</span>
+    <span class="ticker-item">⚡ Швидкий викуп авто</span>
+    <span class="ticker-item">💵 Гроші одразу</span>
+    <span class="ticker-item">📍 Львів та область</span>
+    <span class="ticker-item">🇺🇸 Авто зі США під замовлення</span>
+    <span class="ticker-item">🤝 Чесна оцінка</span>
+    <span class="ticker-item">🚢 Доставка з Америки</span>
+    <span class="ticker-item">🚗 Авто з США</span>
+    <span class="ticker-item">🔍 Підбір авто під замовлення</span>
+    <span class="ticker-item">🔄 Trade-IN</span>
+    <span class="ticker-item">⚡ Швидкий викуп авто</span>
+    <span class="ticker-item">💵 Гроші одразу</span>
+    <span class="ticker-item">📍 Львів та область</span>
+    <span class="ticker-item">🇺🇸 Авто зі США під замовлення</span>
+    <span class="ticker-item">🤝 Чесна оцінка</span>
+    <span class="ticker-item">🚢 Доставка з Америки</span>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-slideshow" id="hero-slideshow">
+      <div class="hero-slide active" id="hero-slide-0">
+        <img src="https://i.ibb.co/8qNNWMN/image.jpg" alt="Авто МІКС" onerror="this.src='https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200'" />
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-slide-indicator" id="hero-dots">
+      <button class="hero-dot active" onclick="gotoHeroSlide(0)"></button>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">⚡ Автовикуп — Швидко та Вигідно</div>
+      <h1>АВТО <b>МІКС</b></h1>
+      <p class="hero-tagline">ШВИДКО · НАДІЙНО · ВИГІДНО · АВТОВИКУП</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('cars')">🚗 Авто з США</button>
+        <button class="btn-primary" style="background:rgba(200,90,14,0.9);" onclick="showPage('tradein')">🔄 Trade-IN</button>
+        <button class="btn-primary" style="background:rgba(0,100,200,0.85);" onclick="showPage('search')">🔍 Підбір авто</button>
+        <button class="btn-outline" onclick="showPage('contact')">📞 Контакти</button>
+      </div>
+    </div>
+    <div class="hero-upload-wrap">
+      <label class="hero-upload-btn" title="Додати фото шапки (можна кілька)">
+        📷 Додати фото
+        <input type="file" accept="image/*" multiple style="display:none" onchange="addHeroBg(event)">
+      </label>
+      <button class="hero-upload-btn" onclick="clearHeroBgs()" title="Очистити фото шапки" id="hero-clear-btn" style="display:none">🗑️</button>
+    </div>
+  </div>
+
+  <div class="features-strip">
+    <div class="feature-item"><div class="feature-icon">⏱️</div><h3>Швидка оцінка та виїзд</h3><p>Оцінимо ваше авто протягом 30 хвилин після дзвінка</p></div>
+    <div class="feature-item"><div class="feature-icon">🤝</div><h3>Чесні умови угоди</h3><p>Прозора угода без прихованих комісій і зборів</p></div>
+    <div class="feature-item"><div class="feature-icon">💵</div><h3>Готівка одразу на руки</h3><p>Отримайте гроші одразу після підписання документів</p></div>
+  </div>
+
+  <div class="section" style="background:var(--bg4);">
+    <div class="section-title">Як це <b>працює?</b></div>
+    <p class="section-sub">Лише 4 простих кроки від дзвінка до грошей</p>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-num">1</div><h3>Заявка</h3><p>Зателефонуйте або напишіть нам</p></div>
+      <div class="step-card"><div class="step-num">2</div><h3>Оцінка</h3><p>Виїжджаємо до вас безкоштовно</p></div>
+      <div class="step-card"><div class="step-num">3</div><h3>Угода</h3><p>Підписуємо документи на місці</p></div>
+      <div class="step-card"><div class="step-num">4</div><h3>Гроші</h3><p>Отримуєте готівку одразу</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Авто з <b>США</b></div>
+    <p class="section-sub">Актуальні авто в дорозі та на площадці</p>
+    <div id="home-cars-preview"></div>
+    <div style="text-align:center;margin-top:1.5rem;">
+      <button class="btn-primary" onclick="showPage('cars')">Переглянути всі авто →</button>
+    </div>
+  </div>
+
+  <div class="section" style="background:var(--bg4);border-top:1px solid var(--border3);">
+    <div class="section-title">🔍 Підбір авто <b>під замовлення</b></div>
+    <p class="section-sub">Не знайшли потрібне авто? Ми підберемо під ваш запит!</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem;">
+      <div class="step-card"><div class="step-num">🎯</div><h3>Ваш запит</h3><p>Вкажіть марку, модель, бюджет та побажання</p></div>
+      <div class="step-card"><div class="step-num">🔎</div><h3>Пошук</h3><p>Знаходимо найкращі варіанти на аукціонах США</p></div>
+      <div class="step-card"><div class="step-num">🚢</div><h3>Доставка</h3><p>Організовуємо купівлю та доставку до Львова</p></div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn-primary" onclick="showPage('search')">📋 Залишити заявку на підбір →</button>
+    </div>
+  </div>
+  <footer>© 2026 <b>АВТО МІКС</b> · Автовикуп · Авто з Львів</footer>
+</div>
+
+<!-- CARS -->
+<div class="page" id="page-cars">
+  <div class="cars-header">
+    <div><h2>Авто з США 🇺🇸</h2><p style="font-size:12px;color:#888;margin-top:3px;">В дорозі та вже на місці</p></div>
+    <button class="add-car-btn" onclick="openModal()">+ Додати авто</button>
+  </div>
+  <div class="cars-filter">
+    <button class="filter-btn active" onclick="filterCars('all',this)">Всі</button>
+    <button class="filter-btn" onclick="filterCars('transit',this)">🚢 В дорозі</button>
+    <button class="filter-btn" onclick="filterCars('arrived',this)">✅ На місці</button>
+    <button class="filter-btn" onclick="filterCars('sold',this)">🏷️ Продано</button>
+  </div>
+  <div class="cars-grid" id="cars-grid"></div>
+  <footer>© 2026 <b>АВТО МІКС</b> · Львів</footer>
+</div>
+
+<!-- CAR DETAIL (overlay page) -->
+<div class="car-detail-page" id="car-detail-page">
+  <div class="car-detail-back" onclick="closeCarDetail()">← Назад до оголошень</div>
+  <div class="car-detail-main">
+    <div class="car-detail-gallery" id="car-detail-gallery-wrap">
+      <div id="car-detail-main-img-wrap"></div>
+      <div class="car-detail-thumbs" id="car-detail-thumbs"></div>
+    </div>
+    <div class="car-detail-info" id="car-detail-info"></div>
+  </div>
+</div>
+
+<!-- SEARCH PAGE -->
+<div class="page" id="page-search">
+  <div class="car-search-hero">
+    <h2>🔍 Підбір авто <b>під замовлення</b></h2>
+    <p>Вкажіть ваші побажання, і ми знайдемо ідеальне авто з США під ваш бюджет та смак</p>
+  </div>
+  <div class="car-search-body">
+    <div>
+      <div class="car-search-card" style="margin-bottom:16px;">
+        <div class="car-search-card-head"><h3>📋 Заявка на підбір авто</h3><p>Заповніть форму, ми зв'яжемося протягом 1 години</p></div>
+        <div class="search-form">
+          <div class="tf-group"><label>Бажана марка</label>
+            <select id="sr-make" onchange="updateSearchModels()">
+              <option value="">— Будь-яка марка —</option>
+            </select>
+          </div>
+          <div class="tf-group"><label>Бажана модель / комплектація</label>
+            <select id="sr-model"><option value="">— Оберіть марку спочатку —</option></select>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="tf-group"><label>Рік від</label><input type="number" id="sr-year-from" placeholder="2018"></div>
+            <div class="tf-group"><label>Рік до</label><input type="number" id="sr-year-to" placeholder="2024"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="tf-group"><label>Бюджет від ($)</label><input type="number" id="sr-budget-from" placeholder="10000"></div>
+            <div class="tf-group"><label>Бюджет до ($)</label><input type="number" id="sr-budget-to" placeholder="25000"></div>
+          </div>
+          <div class="tf-group"><label>Тип кузова</label>
+            <select id="sr-body">
+              <option value="">— Будь-який —</option>
+              <option>Седан</option><option>Позашляховик (SUV)</option><option>Кросовер</option>
+              <option>Хетчбек</option><option>Універсал</option><option>Мінівен</option>
+              <option>Пікап</option><option>Купе</option><option>Електромобіль</option>
+            </select>
+          </div>
+          <div class="tf-group"><label>Тип двигуна</label>
+            <select id="sr-engine">
+              <option value="">— Будь-який —</option>
+              <option>Бензин</option><option>Дизель</option><option>Гібрид</option>
+              <option>Plug-in Hybrid</option><option>Електро</option>
+            </select>
+          </div>
+          <div class="tf-group"><label>Коробка передач</label>
+            <select id="sr-transmission">
+              <option value="">— Будь-яка —</option>
+              <option>Автомат</option><option>Механіка</option><option>Варіатор (CVT)</option>
+            </select>
+          </div>
+          <div class="tf-group"><label>Привід</label>
+            <select id="sr-drive">
+              <option value="">— Будь-який —</option>
+              <option>Передній (FWD)</option><option>Задній (RWD)</option>
+              <option>Повний (AWD/4WD)</option>
+            </select>
+          </div>
+          <div class="tf-group"><label>Колір (побажання)</label><input type="text" id="sr-color" placeholder="Чорний, білий..."></div>
+          <div class="tf-group"><label>Ваше ім'я</label><input type="text" id="sr-name" placeholder="Ім'я"></div>
+          <div class="tf-group"><label>Телефон *</label><input type="tel" id="sr-phone" placeholder="+380..."></div>
+          <div class="tf-group"><label>Додаткові побажання</label><textarea id="sr-desc" placeholder="Без аварійних, певна комплектація, пробіг до..."></textarea></div>
+          <button class="btn-tradein" onclick="submitSearch()">🔍 Надіслати заявку на підбір</button>
+          <div class="tradein-success" id="sr-success"><h3>✅ Заявку прийнято!</h3><p>Ми зв'яжемося з вами найближчим часом для уточнення деталей.</p></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="tradein-how" style="margin-bottom:16px;">
+        <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:12px;">Як працює підбір</p>
+        <div class="tradein-step"><div class="ts-num">1</div><div class="ts-text"><h4>Заявка</h4><p>Заповнюєте форму з побажаннями та бюджетом</p></div></div>
+        <div class="tradein-step"><div class="ts-num">2</div><div class="ts-text"><h4>Пошук на аукціонах</h4><p>Шукаємо найкращі варіанти на Copart, IAAI та інших</p></div></div>
+        <div class="tradein-step"><div class="ts-num">3</div><div class="ts-text"><h4>Узгодження</h4><p>Надсилаємо варіанти та обираємо разом з вами</p></div></div>
+        <div class="tradein-step"><div class="ts-num">4</div><div class="ts-text"><h4>Купівля та доставка</h4><p>Купуємо та організовуємо доставку до Львова</p></div></div>
+      </div>
+      <div class="search-advantages">
+        <div class="search-adv-item"><div class="search-adv-icon">💰</div><div class="search-adv-text"><h4>Економія до 40%</h4><p>Авто з США дешевші за аналоги в Україні</p></div></div>
+        <div class="search-adv-item"><div class="search-adv-icon">🔍</div><div class="search-adv-text"><h4>Будь-яке авто під замовлення</h4><p>Знайдемо навіть рідкісні комплектації</p></div></div>
+        <div class="search-adv-item"><div class="search-adv-icon">📋</div><div class="search-adv-text"><h4>Повний супровід</h4><p>Від аукціону до розмитнення в Україні</p></div></div>
+        <div class="search-adv-item"><div class="search-adv-icon">🛡️</div><div class="search-adv-text"><h4>Перевірка VIN</h4><p>Повна перевірка авто перед покупкою</p></div></div>
+      </div>
+    </div>
+  </div>
+  <footer>© 2026 <b>АВТО МІКС</b> · Підбір авто · Львів</footer>
+</div>
+
+<!-- TRADE IN -->
+<div class="page" id="page-tradein">
+  <div class="tradein-hero">
+    <h2>Trade-<b>IN</b></h2>
+    <p>Здайте своє авто в залік і доплатіть різницю за нове авто з США. Швидко, вигідно та без зайвих клопотів.</p>
+  </div>
+  <div class="tradein-body">
+    <div>
+      <div class="tradein-card" style="margin-bottom:16px;">
+        <div class="tradein-card-head"><h3>🚗 Ваше авто (здаєте)</h3><p>Заповніть дані авто, яке хочете здати</p></div>
+        <div class="tradein-form">
+          <div class="tf-group"><label>Марка та модель</label><input type="text" id="ti-my-car" placeholder="напр. Honda Accord 2019"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="tf-group"><label>Рік</label><input type="number" id="ti-my-year" placeholder="2019"></div>
+            <div class="tf-group"><label>Пробіг (тис. км)</label><input type="number" id="ti-my-km" placeholder="85"></div>
+          </div>
+          <div class="tf-group"><label>Стан авто</label>
+            <select id="ti-my-state"><option value="">Оберіть стан...</option><option>Відмінний — без пошкоджень</option><option>Добрий — незначні подряпини</option><option>Задовільний — є дефекти</option><option>Потребує ремонту</option></select>
+          </div>
+          <div class="tf-group"><label>Коментар</label><textarea id="ti-my-desc" placeholder="Додаткова інформація..."></textarea></div>
+        </div>
+      </div>
+      <div class="tradein-card">
+        <div class="tradein-card-head"><h3>🇺🇸 Авто з США (хочете)</h3><p>Яке авто вас цікавить</p></div>
+        <div class="tradein-form">
+          <div class="tf-group"><label>Бажана марка / модель</label><input type="text" id="ti-want-car" placeholder="напр. Toyota Camry 2022"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="tf-group"><label>Бюджет доплати ($)</label><input type="number" id="ti-budget" placeholder="5000"></div>
+            <div class="tf-group"><label>Ваш телефон</label><input type="tel" id="ti-phone" placeholder="+380..."></div>
+          </div>
+          <div class="tf-group"><label>Ваше ім'я</label><input type="text" id="ti-name" placeholder="Ім'я"></div>
+          <button class="btn-tradein" onclick="submitTradein()">📩 Надіслати заявку на Trade-IN</button>
+          <div class="tradein-success" id="ti-success"><h3>✅ Заявку прийнято!</h3><p>Ми зв'яжемося з вами найближчим часом.</p></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="tradein-how" style="margin-bottom:16px;">
+        <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:12px;">Як працює Trade-IN</p>
+        <div class="tradein-step"><div class="ts-num">1</div><div class="ts-text"><h4>Оцінка вашого авто</h4><p>Безкоштовно оцінюємо ваше авто за ринковими цінами</p></div></div>
+        <div class="tradein-step"><div class="ts-num">2</div><div class="ts-text"><h4>Підбір авто з США</h4><p>Підбираємо авто під ваш запит і бюджет доплати</p></div></div>
+        <div class="tradein-step"><div class="ts-num">3</div><div class="ts-text"><h4>Оформлення угоди</h4><p>Ви здаєте своє авто, ми зараховуємо вартість</p></div></div>
+        <div class="tradein-step"><div class="ts-num">4</div><div class="ts-text"><h4>Доплачуєте різницю</h4><p>Отримуєте нове авто, доплативши лише різницю</p></div></div>
+      </div>
+      <div class="tradein-advantages">
+        <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:12px;">Переваги Trade-IN</p>
+        <div class="adv-item"><div class="adv-icon">⚡</div><div class="adv-text"><h4>Швидко</h4><p>Весь процес — за 1–2 дні</p></div></div>
+        <div class="adv-item"><div class="adv-icon">💰</div><div class="adv-text"><h4>Вигідно</h4><p>Справедлива ціна за ваше авто</p></div></div>
+        <div class="adv-item"><div class="adv-icon">📋</div><div class="adv-text"><h4>Без клопотів</h4><p>Ми самі займаємось документами</p></div></div>
+        <div class="adv-item" style="border:none;"><div class="adv-icon">🛡️</div><div class="adv-text"><h4>Надійно</h4><p>Офіційна угода та гарантії</p></div></div>
+      </div>
+    </div>
+  </div>
+  <footer>© 2026 <b>АВТО МІКС</b> · Trade-IN · Львів</footer>
+</div>
+
+<!-- CONTACTS -->
+<div class="page" id="page-contact">
+  <div class="contact-hero">
+    <h2>Контакти <b style="color:var(--orange)">АВТО МІКС</b></h2>
+    <p>Зв'яжіться зручним способом — відповімо швидко</p>
+  </div>
+  <div class="contact-body">
+    <div>
+      <div class="contact-block">
+        <div class="contact-block-title">📱 TikTok</div>
+        <a class="tiktok-profile-card" href="https://www.tiktok.com/@romantaras777" target="_blank">
+          <div class="tiktok-avatar">🎬</div>
+          <div class="tiktok-info"><h4>АВТО МІКС</h4><div class="tiktok-handle">@romantaras777</div><p>Авто з США · Огляди · Викуп</p></div>
+        </a>
+        <a class="tiktok-open-btn" href="https://www.tiktok.com/@romantaras777" target="_blank">▶ Відкрити TikTok канал</a>
+      </div>
+      <div class="contact-block">
+        <div class="contact-block-title">🔗 Соцмережі</div>
+        <a class="contact-row" href="https://www.tiktok.com/@romantaras777" target="_blank">
+          <div class="c-icon" style="background:#1c1c2e;">📱</div>
+          <div class="contact-text-info"><h4>TikTok</h4><p>@romantaras777</p></div>
+        </a>
+        <a class="contact-row" href="#" onclick="return false;">
+          <div class="c-icon" style="background:#2a1020;">📸</div>
+          <div class="contact-text-info"><h4>Instagram</h4><p>@automix_ukraine</p></div>
+        </a>
+        <a class="contact-row" href="#" onclick="return false;" style="border:none;">
+          <div class="c-icon" style="background:#0c1e30;">✈️</div>
+          <div class="contact-text-info"><h4>Telegram</h4><p>@automix_ua</p></div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="contact-block">
+        <div class="contact-block-title">☎️ Зв'язок</div>
+        <a class="contact-row" href="tel:+380000000000">
+          <div class="c-icon" style="background:#0d1f15;">📞</div>
+          <div class="contact-text-info"><h4>Телефон</h4><p>+380 XX XXX XX XX</p></div>
+        </a>
+        <a class="contact-row" href="#" onclick="return false;">
+          <div class="c-icon" style="background:#1a1030;">📲</div>
+          <div class="contact-text-info"><h4>Viber / WhatsApp</h4><p>+380 XX XXX XX XX</p></div>
+        </a>
+        <a class="contact-row" href="#" onclick="return false;" style="border:none;">
+          <div class="c-icon" style="background:#0c1e30;">✈️</div>
+          <div class="contact-text-info"><h4>Telegram</h4><p>@automix_ua</p></div>
+        </a>
+      </div>
+      <div class="contact-block">
+        <div class="contact-block-title">📍 Розташування</div>
+        <div class="contact-row" style="pointer-events:none;">
+          <div class="c-icon" style="background:#1a140a;">📍</div>
+          <div class="contact-text-info"><h4>Місто</h4><p>Львів, Україна</p></div>
+        </div>
+        <div class="contact-row" style="pointer-events:none;">
+          <div class="c-icon" style="background:#1a140a;">🕐</div>
+          <div class="contact-text-info"><h4>Графік роботи</h4><p>Пн–Нд: 9:00 – 20:00</p></div>
+        </div>
+        <div class="contact-row" style="pointer-events:none;border:none;">
+          <div class="c-icon" style="background:#1a140a;">🚗</div>
+          <div class="contact-text-info"><h4>Виїзд до клієнта</h4><p>Безкоштовно по Львову та області</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>© 2026 <b>АВТО МІКС</b> · Автовикуп · Авто з Львів</footer>
+</div>
+
+<!-- ADD/EDIT CAR MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Додати авто <b>з США 🇺🇸</b></h3>
+    <div class="form-grid">
+      <div class="form-group full">
+        <label>Фото авто (до 15 фото)</label>
+        <div class="multi-photo-grid" id="multi-photo-grid"></div>
+        <input type="file" id="f-photos" accept="image/*" multiple style="display:none" onchange="addCarPhotos(event)">
+      </div>
+      <div class="form-group"><label>Марка</label>
+        <select id="f-make" onchange="updateModels()">
+          <option value="">— Оберіть марку —</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Модель</label>
+        <select id="f-model">
+          <option value="">— Спочатку оберіть марку —</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Покоління / Комплектація</label>
+        <input type="text" id="f-generation" placeholder="напр. Golf 6, Camry XV70, XSE...">
+      </div>
+      <div class="form-group"><label>Рік</label><input type="number" id="f-year" placeholder="2022"></div>
+      <div class="form-group"><label>Ціна ($)</label><input type="number" id="f-price" placeholder="15000"></div>
+      <div class="form-group"><label>Пробіг (км)</label><input type="number" id="f-mileage" placeholder="35000"></div>
+      <div class="form-group"><label>Тип кузова</label>
+        <select id="f-body">
+          <option value="">— Оберіть тип —</option>
+          <option value="Седан">🚗 Седан</option>
+          <option value="Позашляховик">🚙 Позашляховик (SUV)</option>
+          <option value="Кросовер">🚗 Кросовер</option>
+          <option value="Хетчбек">🚗 Хетчбек</option>
+          <option value="Універсал">🚐 Універсал</option>
+          <option value="Мінівен">🚐 Мінівен</option>
+          <option value="Пікап">🛻 Пікап</option>
+          <option value="Купе">🏎️ Купе</option>
+          <option value="Кабріолет">🏎️ Кабріолет</option>
+          <option value="Електромобіль">⚡ Електромобіль</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Тип двигуна</label>
+        <select id="f-engine">
+          <option value="">— Оберіть —</option>
+          <option value="Бензин">⛽ Бензин</option>
+          <option value="Дизель">🛢️ Дизель</option>
+          <option value="Гібрид">🔋 Гібрид</option>
+          <option value="Plug-in Hybrid">🔌 Plug-in Hybrid</option>
+          <option value="Електро">⚡ Електро</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Коробка передач</label>
+        <select id="f-transmission">
+          <option value="">— Оберіть —</option>
+          <option value="Автомат">🤖 Автомат</option>
+          <option value="Механіка">⚙️ Механіка</option>
+          <option value="Варіатор">🔄 Варіатор (CVT)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Привід</label>
+        <select id="f-drive">
+          <option value="">— Оберіть —</option>
+          <option value="FWD">FWD — Передній</option>
+          <option value="RWD">RWD — Задній</option>
+          <option value="AWD">AWD — Повний</option>
+          <option value="4WD">4WD — Повний (жорсткий)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Об'єм двигуна (л)</label>
+        <input type="text" id="f-engine-vol" placeholder="напр. 2.5, 3.5, електро">
+      </div>
+      <div class="form-group full"><label>Статус</label>
+        <div class="status-toggle-group">
+          <button type="button" class="status-toggle-btn active-transit" id="stb-transit" onclick="setStatusToggle('transit')">🚢 В дорозі</button>
+          <button type="button" class="status-toggle-btn" id="stb-arrived" onclick="setStatusToggle('arrived')">✅ На місці</button>
+          <button type="button" class="status-toggle-btn" id="stb-sold" onclick="setStatusToggle('sold')">🏷️ Продано</button>
+        </div>
+        <input type="hidden" id="f-status" value="transit">
+      </div>
+      <div class="form-group full"><label>Опис / Комплектація</label><textarea id="f-desc" placeholder="Колір, комплектація, стан..."></textarea></div>
+      <div class="form-group full"><label>Емоджі авто (якщо немає фото)</label><input type="text" id="f-emoji" placeholder="🚗 або 🚙 або 🏎️" maxlength="4"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Скасувати</button>
+      <button class="btn-save" id="modal-save-btn" onclick="saveCar()">💾 Зберегти авто</button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-prev" onclick="lightboxPrev()">‹</button>
+  <div class="lightbox-inner">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+  <button class="lightbox-next" onclick="lightboxNext()">›</button>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+  <div class="lightbox-thumbs" id="lightbox-thumbs"></div>
+</div>
+
+<script type="module">
+// ========== FIREBASE ==========
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+// Storage не використовується — фото зберігаються як base64 у Firestore
+
+// ТУТ ВСТАВТЕ СВІЙ firebaseConfig з консолі Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDlhzW8GKU_5oWOVik-iao3Rk8AMfxEScg",
+  authDomain: "avtomix-lviv.firebaseapp.com",
+  projectId: "avtomix-lviv",
+  storageBucket: "avtomix-lviv.firebasestorage.app",
+  messagingSenderId: "438028880279",
+  appId: "1:438028880279:web:400b0b7ab4c4c1496a9cd2",
+  measurementId: "G-V0R22WGHXT"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+// Firestore only — no Storage needed
+
+// Compress image to base64 (max ~200KB per photo)
+function compressPhoto(base64, maxWidth=800, quality=0.72) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = base64;
+  });
+}
+
+// Save car to Firestore — photos stored as base64 chunks
+async function saveCarToFirebase(carData) {
+  const id = carData.id ? String(carData.id) : String(Date.now());
+  carData.id = parseInt(id) || Date.now();
+
+  // Compress photos
+  const compressed = [];
+  for (const p of (carData.photos||[])) {
+    if (p.startsWith('data:')) {
+      try { compressed.push(await compressPhoto(p)); }
+      catch(e) { compressed.push(p); }
+    } else { compressed.push(p); }
+  }
+  carData.photos = compressed;
+
+  // Split into main doc (no photos) + photo sub-docs to stay under 1MB
+  const { photos, ...mainData } = carData;
+  await setDoc(doc(db, 'cars', id), mainData);
+
+  // Save photos in batches of 3 per sub-doc
+  const batchSize = 3;
+  for (let i = 0; i < photos.length; i += batchSize) {
+    await setDoc(doc(db, 'cars', id, 'photos', String(i)), {
+      imgs: photos.slice(i, i + batchSize)
+    });
+  }
+  // Save count
+  await setDoc(doc(db, 'cars', id), { ...mainData, photoCount: photos.length });
+
+  carData.photos = photos;
+  return carData;
+}
+
+async function deleteCarFromFirebase(id) {
+  // Delete photo sub-docs
+  try {
+    const photosSnap = await getDocs(collection(db, 'cars', String(id), 'photos'));
+    for (const d of photosSnap.docs) await deleteDoc(d.ref);
+  } catch(e) {}
+  await deleteDoc(doc(db, 'cars', String(id)));
+}
+
+async function loadPhotosForCar(id) {
+  const photos = [];
+  try {
+    const snap = await getDocs(collection(db, 'cars', String(id), 'photos'));
+    const sorted = snap.docs.sort((a,b) => parseInt(a.id) - parseInt(b.id));
+    for (const d of sorted) photos.push(...(d.data().imgs||[]));
+  } catch(e) {}
+  return photos;
+}
+
+async function saveHeroBgsToFirebase(bgs) {
+  const compressed = [];
+  for (const bg of bgs) {
+    if (bg.startsWith('data:')) {
+      try { compressed.push(await compressPhoto(bg, 1200, 0.75)); }
+      catch(e) { compressed.push(bg); }
+    } else { compressed.push(bg); }
+  }
+  // Store each hero photo as separate sub-doc
+  for (let i = 0; i < compressed.length; i++) {
+    await setDoc(doc(db, 'settings', 'heroBgs', 'slides', String(i)), { img: compressed[i] });
+  }
+  await setDoc(doc(db, 'settings', 'heroBgs'), { count: compressed.length });
+  return compressed;
+}
+
+async function loadHeroBgsFromFirebase() {
+  const meta = await getDoc(doc(db, 'settings', 'heroBgs'));
+  if (!meta.exists()) return [];
+  const count = meta.data().count || 0;
+  const imgs = [];
+  for (let i = 0; i < count; i++) {
+    const d = await getDoc(doc(db, 'settings', 'heroBgs', 'slides', String(i)));
+    if (d.exists()) imgs.push(d.data().img);
+  }
+  return imgs;
+}
+
+// ========== DATA ==========
+const CAR_DATA = {
+  'Toyota':    {models:['Camry','Corolla','RAV4','Highlander','Tacoma','Tundra','4Runner','Sienna','Venza','C-HR','Avalon','Sequoia','Land Cruiser','Prius']},
+  'Honda':     {models:['Accord','Civic','CR-V','Pilot','Odyssey','Passport','HR-V','Ridgeline','Insight']},
+  'BMW':       {models:['3 Series','5 Series','7 Series','X1','X3','X5','X7','M3','M5','i4','iX']},
+  'Mercedes':  {models:['C-Class','E-Class','S-Class','GLC','GLE','GLS','A-Class','CLA','AMG GT']},
+  'Audi':      {models:['A3','A4','A6','A8','Q3','Q5','Q7','Q8','e-tron']},
+  'Volkswagen':{models:['Jetta','Passat','Tiguan','Atlas','Golf 6','Golf 7','Golf 8','ID.4','Arteon']},
+  'Ford':      {models:['F-150','Mustang','Explorer','Escape','Edge','Bronco','Ranger','Expedition','Maverick']},
+  'Chevrolet': {models:['Silverado','Equinox','Traverse','Tahoe','Suburban','Malibu','Blazer','Trax','Colorado']},
+  'Tesla':     {models:['Model 3','Model Y','Model S','Model X','Cybertruck']},
+  'Dodge':     {models:['Charger','Challenger','Durango','Ram 1500']},
+  'Jeep':      {models:['Grand Cherokee','Wrangler','Cherokee','Compass','Gladiator','Renegade']},
+  'GMC':       {models:['Sierra','Yukon','Acadia','Terrain','Canyon']},
+  'Hyundai':   {models:['Elantra','Sonata','Tucson','Santa Fe','Palisade','Ioniq 5','Ioniq 6','Kona']},
+  'Kia':       {models:['Sorento','Sportage','Telluride','K5','EV6','Stinger','Carnival','Forte']},
+  'Nissan':    {models:['Altima','Maxima','Rogue','Pathfinder','Frontier','Armada','Murano','Sentra','Leaf']},
+  'Subaru':    {models:['Outback','Forester','Crosstrek','Impreza','Legacy','Ascent','WRX']},
+  'Mazda':     {models:['Mazda3','Mazda6','CX-5','CX-9','CX-50','MX-5']},
+  'Lexus':     {models:['ES','LS','RX','NX','GX','LX','IS','UX']},
+  'Infiniti':  {models:['Q50','Q60','QX50','QX60','QX80']},
+  'Acura':     {models:['TLX','RDX','MDX','ILX','NSX']},
+  'Cadillac':  {models:['Escalade','CT4','CT5','XT4','XT5','XT6','Lyriq']},
+  'Lincoln':   {models:['Navigator','Aviator','Corsair','Nautilus']},
+  'Buick':     {models:['Enclave','Encore','Envision','LaCrosse']},
+  'Ram':       {models:['1500','2500','3500','ProMaster']},
+  'Chrysler':  {models:['Pacifica','300']},
+  'Volvo':     {models:['XC40','XC60','XC90','S60','S90','V60']},
+  'Porsche':   {models:['Cayenne','Macan','Panamera','911','Taycan']},
+  'Land Rover':{models:['Range Rover','Discovery','Defender','Evoque']},
+  'Genesis':   {models:['G70','G80','G90','GV70','GV80']},
+  'Rivian':    {models:['R1T','R1S']},
+  'Lucid':     {models:['Air']},
+};
+
+const ADMIN_PASSWORD = 'automix2026';
+let isAdmin = false;
+let editingCarId = null;
+let currentModalStatus = 'transit';
+let cars = [
+  { id:1, make:'Toyota', model:'Camry', generation:'XV70', year:2022, price:18500, mileage:32000, status:'transit', body:'Седан', engine:'Бензин', transmission:'Автомат', drive:'FWD', engineVol:'2.5', desc:'Чорний, XSE, без пошкоджень', emoji:'🚗', photos:[] },
+  { id:2, make:'BMW', model:'X5', generation:'G05', year:2021, price:42000, mileage:28000, status:'arrived', body:'Позашляховик', engine:'Бензин', transmission:'Автомат', drive:'AWD', engineVol:'3.0', desc:'Білий, xDrive40i', emoji:'🚙', photos:[] },
+  { id:3, make:'Tesla', model:'Model Y', generation:'', year:2023, price:39000, mileage:15000, status:'transit', body:'Кросовер', engine:'Електро', transmission:'Автомат', drive:'AWD', engineVol:'Електро', desc:'Сірий, Long Range AWD', emoji:'🚘', photos:[] },
+];
+let nextId = 4, currentFilter = 'all';
+let currentPhotos = [];
+
+// Hero slideshow
+let heroBgs = [];
+let heroSlideIdx = 0;
+let heroSlideTimer = null;
+
+// Lightbox
+let lbPhotos = [], lbIdx = 0;
+
+// ========== INIT ==========
+(function() {
+  const saved = localStorage.getItem('automix-theme');
+  if (saved === 'light') {
+    document.body.classList.add('light');
+    const btn = document.getElementById('theme-btn');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
+
+// Load cars from Firebase
+async function loadCarsFromFirebase() {
+  try {
+    const snap = await getDocs(collection(db, 'cars'));
+    const loaded = [];
+    for (const d of snap.docs) {
+      const car = d.data();
+      // Load photos from sub-collection
+      car.photos = await loadPhotosForCar(car.id);
+      loaded.push(car);
+    }
+    if (loaded.length > 0) {
+      cars = loaded.sort((a,b) => b.id - a.id);
+      nextId = Math.max(...cars.map(c=>c.id||0)) + 1;
+    }
+    renderCars(); renderPreview();
+  } catch(e) {
+    console.warn('Firebase load error:', e);
+    renderCars(); renderPreview();
+  }
+}
+
+// Load hero from Firebase
+async function loadHeroFromFirebase() {
+  try {
+    const bgs = await loadHeroBgsFromFirebase();
+    if (bgs && bgs.length) {
+      heroBgs = bgs;
+      buildHeroSlideshow();
+    }
+  } catch(e) {
+    console.warn('Hero load error:', e);
+  }
+}
+
+// Start loading
+loadCarsFromFirebase();
+loadHeroFromFirebase();
+
+// ========== HERO SLIDESHOW ==========
+function buildHeroSlideshow() {
+  const ss = document.getElementById('hero-slideshow');
+  const dotsEl = document.getElementById('hero-dots');
+  if (!heroBgs.length) {
+    // keep default slide
+    ss.innerHTML = `<div class="hero-slide active" id="hero-slide-0"><img src="https://i.ibb.co/8qNNWMN/image.jpg" alt="Авто МІКС" onerror="this.src='https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200'"/></div>`;
+    dotsEl.innerHTML = `<button class="hero-dot active" onclick="gotoHeroSlide(0)"></button>`;
+    document.getElementById('hero-clear-btn').style.display = 'none';
+    return;
+  }
+  ss.innerHTML = heroBgs.map((bg,i) => `<div class="hero-slide${i===0?' active':''}" id="hero-slide-${i}"><img src="${bg}" alt="Фото ${i+1}"></div>`).join('');
+  dotsEl.innerHTML = heroBgs.map((_,i) => `<button class="hero-dot${i===0?' active':''}" onclick="gotoHeroSlide(${i})"></button>`).join('');
+  document.getElementById('hero-clear-btn').style.display = heroBgs.length > 0 ? 'inline-block' : 'none';
+  heroSlideIdx = 0;
+  clearInterval(heroSlideTimer);
+  if (heroBgs.length > 1) heroSlideTimer = setInterval(nextHeroSlide, 10000);
+}
+
+function addHeroBg(e) {
+  if (!isAdmin) { alert('Увійдіть як адмін (⚙️) щоб змінювати фото'); return; }
+  const files = [...e.target.files];
+  let loaded = 0;
+  const newBase64 = [];
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = async ev => {
+      newBase64.push(ev.target.result);
+      loaded++;
+      if (loaded === files.length) {
+        const allBgs = [...heroBgs, ...newBase64];
+        try {
+          const uploaded = await saveHeroBgsToFirebase(allBgs);
+          heroBgs = uploaded;
+        } catch(e) {
+          heroBgs = allBgs;
+        }
+        buildHeroSlideshow();
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+}
+
+function clearHeroBgs() {
+  if (!isAdmin) return;
+  if (!confirm('Видалити всі фото шапки?')) return;
+  heroBgs = [];
+  setDoc(doc(db, 'settings', 'heroBgs'), { bgs: [] }).catch(()=>{});
+  buildHeroSlideshow();
+}
+
+function gotoHeroSlide(idx) {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.hero-dot');
+  slides.forEach((s,i) => s.classList.toggle('active', i===idx));
+  dots.forEach((d,i) => d.classList.toggle('active', i===idx));
+  heroSlideIdx = idx;
+}
+
+function nextHeroSlide() {
+  const slides = document.querySelectorAll('.hero-slide');
+  gotoHeroSlide((heroSlideIdx + 1) % slides.length);
+}
+
+// ========== THEME ==========
+function toggleTheme() {
+  const body = document.body;
+  const btn = document.getElementById('theme-btn');
+  if (body.classList.contains('light')) {
+    body.classList.remove('light');
+    btn.textContent = '🌙';
+    localStorage.setItem('automix-theme', 'dark');
+  } else {
+    body.classList.add('light');
+    btn.textContent = '☀️';
+    localStorage.setItem('automix-theme', 'light');
+  }
+}
+
+// ========== ADMIN ==========
+function toggleAdmin() {
+  if (isAdmin) {
+    isAdmin = false;
+    document.body.classList.remove('admin-mode');
+    renderCars(); renderPreview(); return;
+  }
+  const pw = prompt('Введіть пароль адміна:');
+  if (pw === ADMIN_PASSWORD) {
+    isAdmin = true;
+    document.body.classList.add('admin-mode');
+    renderCars(); renderPreview();
+  } else if (pw !== null) { alert('❌ Невірний пароль'); }
+}
+
+// ========== NAVIGATION ==========
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const n = document.getElementById('nav-'+name);
+  if (n) n.classList.add('active');
+  closeCarDetail();
+  if (name==='cars') renderCars();
+  if (name==='home') renderPreview();
+  window.scrollTo(0,0);
+}
+
+// ========== MAKE/MODEL ==========
+function populateMakes() {
+  ['f-make'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    Object.keys(CAR_DATA).sort().forEach(make => {
+      const opt = document.createElement('option');
+      opt.value = make; opt.textContent = make;
+      sel.appendChild(opt);
+    });
+  });
+  const sr = document.getElementById('sr-make');
+  if (sr) {
+    Object.keys(CAR_DATA).sort().forEach(make => {
+      const opt = document.createElement('option');
+      opt.value = make; opt.textContent = make;
+      sr.appendChild(opt);
+    });
+  }
+}
+
+function updateModels() {
+  const make = document.getElementById('f-make').value;
+  const modelSel = document.getElementById('f-model');
+  modelSel.innerHTML = '';
+  if (!make) { modelSel.innerHTML = '<option value="">— Спочатку оберіть марку —</option>'; return; }
+  const models = (CAR_DATA[make]?.models) || [];
+  modelSel.innerHTML = '<option value="">— Оберіть модель —</option>';
+  models.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m; opt.textContent = m;
+    modelSel.appendChild(opt);
+  });
+}
+
+function updateSearchModels() {
+  const make = document.getElementById('sr-make').value;
+  const modelSel = document.getElementById('sr-model');
+  modelSel.innerHTML = '';
+  if (!make) { modelSel.innerHTML = '<option value="">— Оберіть марку спочатку —</option>'; return; }
+  const models = (CAR_DATA[make]?.models) || [];
+  modelSel.innerHTML = '<option value="">— Оберіть модель —</option>';
+  models.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m; opt.textContent = m;
+    modelSel.appendChild(opt);
+  });
+}
+
+// ========== STATUS TOGGLE ==========
+function setStatusToggle(val) {
+  currentModalStatus = val;
+  document.getElementById('f-status').value = val;
+  ['transit','arrived','sold'].forEach(s => {
+    const btn = document.getElementById('stb-'+s);
+    btn.className = 'status-toggle-btn';
+    if (s === val) btn.classList.add('active-'+s);
+  });
+}
+
+// ========== STATUS LABEL ==========
+function statusLabel(s) {
+  if (s==='transit') return {cls:'status-transit', txt:'🚢 В дорозі'};
+  if (s==='arrived') return {cls:'status-arrived', txt:'✅ На місці'};
+  return {cls:'status-sold', txt:'🏷️ Продано'};
+}
+
+// ========== CAR CARD HTML ==========
+function carCardHTML(c) {
+  const sl = statusLabel(c.status);
+  const photos = c.photos && c.photos.length ? c.photos : (c.photo ? [c.photo] : []);
+  let mediaHTML;
+  if (photos.length > 0) {
+    const imgs = photos.map((p,i)=>`<img class="car-gallery-img${i===0?' active':''}" src="${p}" onclick="openLightbox(event,${c.id},${i})" data-idx="${i}" alt="${c.make}">`).join('');
+    const dots = photos.length > 1 ? `<div class="gallery-nav">${photos.map((_,i)=>`<button class="gallery-dot${i===0?' active':''}" onclick="gallerGoto(event,${c.id},${i})"></button>`).join('')}</div>` : '';
+    const arrows = photos.length > 1 ? `<button class="gallery-arr prev" onclick="galleryPrev(event,${c.id})">‹</button><button class="gallery-arr next" onclick="galleryNext(event,${c.id})">›</button>` : '';
+    const countHTML = photos.length > 1 ? `<div class="gallery-count">📷 ${photos.length}</div>` : '';
+    mediaHTML = `${imgs}${arrows}${dots}${countHTML}`;
+  } else {
+    mediaHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:4rem">${c.emoji||'🚗'}</div>`;
+  }
+  const soldOverlay = c.status==='sold' ? `<div class="sold-overlay"><div class="sold-overlay-text">ПРОДАНО</div></div>` : '';
+  const specTags = [c.engine, c.transmission, c.drive, c.engineVol ? c.engineVol+(c.engine==='Електро'?'':'л') : ''].filter(Boolean).map(t=>`<span class="car-spec-tag">${t}</span>`).join('');
+  const genText = c.generation ? ` <span style="color:var(--orange);font-weight:600">${c.generation}</span>` : '';
+  const adminBtns = isAdmin ? `<div class="car-admin-btns"><button class="car-edit-btn" onclick="openEditModal(event,${c.id})" title="Редагувати">✏️</button><button class="car-delete-btn" onclick="deleteCar(event,${c.id})" title="Видалити">✕</button></div>` : '';
+
+  return `<div class="car-card" onclick="openCarDetail(${c.id})">
+    <div class="car-gallery" id="gallery-${c.id}">
+      <span class="car-status ${sl.cls}">${sl.txt}</span>
+      ${adminBtns}
+      ${soldOverlay}
+      ${mediaHTML}
+    </div>
+    <div class="car-body">
+      <div class="car-title">${c.year} ${c.make} ${c.model}${genText}</div>
+      <div class="car-meta"><span>🔄 ${c.mileage?c.mileage.toLocaleString()+' км':'—'}</span>${c.body?`<span>🚗 ${c.body}</span>`:''}</div>
+      ${specTags ? `<div class="car-specs">${specTags}</div>` : ''}
+      <div class="car-price">$${c.price?c.price.toLocaleString():'—'}<span>/ ціна</span></div>
+    </div></div>`;
+}
+
+// ========== CAR GALLERY NAV ==========
+function galleryGoto(carId, idx) {
+  const g = document.getElementById('gallery-'+carId);
+  if (!g) return;
+  g.querySelectorAll('.car-gallery-img').forEach((img,i)=>img.classList.toggle('active',i===idx));
+  g.querySelectorAll('.gallery-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+function gallerGoto(e, carId, idx) { e.stopPropagation(); galleryGoto(carId, idx); }
+function galleryPrev(e, carId) {
+  e.stopPropagation();
+  const g = document.getElementById('gallery-'+carId);
+  const imgs = [...g.querySelectorAll('.car-gallery-img')];
+  const cur = imgs.findIndex(i=>i.classList.contains('active'));
+  galleryGoto(carId, (cur-1+imgs.length)%imgs.length);
+}
+function galleryNext(e, carId) {
+  e.stopPropagation();
+  const g = document.getElementById('gallery-'+carId);
+  const imgs = [...g.querySelectorAll('.car-gallery-img')];
+  const cur = imgs.findIndex(i=>i.classList.contains('active'));
+  galleryGoto(carId, (cur+1)%imgs.length);
+}
+
+// ========== LIGHTBOX ==========
+function openLightbox(e, carId, startIdx) {
+  e.stopPropagation();
+  const car = cars.find(c=>c.id===carId);
+  if (!car) return;
+  lbPhotos = car.photos && car.photos.length ? car.photos : [];
+  if (!lbPhotos.length) return;
+  lbIdx = startIdx || 0;
+  renderLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderLightbox() {
+  document.getElementById('lightbox-img').src = lbPhotos[lbIdx];
+  document.getElementById('lightbox-counter').textContent = `${lbIdx+1} / ${lbPhotos.length}`;
+  const thumbsEl = document.getElementById('lightbox-thumbs');
+  thumbsEl.innerHTML = lbPhotos.map((p,i)=>`<img class="lightbox-thumb${i===lbIdx?' active':''}" src="${p}" onclick="lbGoto(${i})" alt="">`).join('');
+}
+
+function lbGoto(idx) { lbIdx = idx; renderLightbox(); }
+function lightboxPrev() { lbIdx = (lbIdx-1+lbPhotos.length)%lbPhotos.length; renderLightbox(); }
+function lightboxNext() { lbIdx = (lbIdx+1)%lbPhotos.length; renderLightbox(); }
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeLightboxOnBg(e) { if (e.target === document.getElementById('lightbox')) closeLightbox(); }
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key==='ArrowRight') lightboxNext();
+  if (e.key==='ArrowLeft') lightboxPrev();
+  if (e.key==='Escape') closeLightbox();
+});
+
+// ========== CAR DETAIL ==========
+function openCarDetail(carId) {
+  const car = cars.find(c=>c.id===carId);
+  if (!car) return;
+  const photos = car.photos && car.photos.length ? car.photos : [];
+  const sl = statusLabel(car.status);
+
+  // Gallery
+  const galleryWrap = document.getElementById('car-detail-main-img-wrap');
+  if (photos.length) {
+    galleryWrap.innerHTML = `<img class="car-detail-main-img" id="cd-main-img" src="${photos[0]}" alt="${car.make}" onclick="openLightboxDirect(0,${carId})">`;
+  } else {
+    galleryWrap.innerHTML = `<div class="car-detail-emoji-fallback">${car.emoji||'🚗'}</div>`;
+  }
+
+  const thumbsEl = document.getElementById('car-detail-thumbs');
+  thumbsEl.innerHTML = photos.map((p,i)=>`<img class="car-detail-thumb${i===0?' active':''}" src="${p}" onclick="cdThumb(${i},'${carId}')" alt="">`).join('');
+
+  // Info
+  const specs = [
+    {label:'Марка', val: car.make},
+    {label:'Модель', val: `${car.model}${car.generation?' '+car.generation:''}`},
+    {label:'Рік', val: car.year},
+    {label:'Пробіг', val: car.mileage ? car.mileage.toLocaleString()+' км' : '—'},
+    {label:'Тип кузова', val: car.body||'—'},
+    {label:'Двигун', val: car.engine||(car.engineVol?car.engineVol+'л':'—')},
+    {label:'Об\'єм', val: car.engineVol||'—'},
+    {label:'Коробка', val: car.transmission||'—'},
+    {label:'Привід', val: car.drive||'—'},
+  ].filter(s=>s.val&&s.val!=='—');
+
+  const editBtn = isAdmin ? `<div style="display:flex;gap:8px;margin-bottom:10px;">
+    <button onclick="openEditModal(null,${car.id})" style="flex:1;background:rgba(232,118,26,0.15);color:var(--orange);border:1px solid var(--orange);padding:9px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">✏️ Редагувати оголошення</button>
+    ${car.status!=='sold'?`<button onclick="quickSetStatus(${car.id},'sold')" style="flex:1;background:rgba(130,130,130,0.15);color:#aaa;border:1px solid #555;padding:9px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">🏷️ Позначити як ПРОДАНО</button>`:''}
+    ${car.status==='sold'?`<button onclick="quickSetStatus(${car.id},'arrived')" style="flex:1;background:rgba(29,158,117,0.15);color:#5DCAA5;border:1px solid rgba(29,158,117,0.5);padding:9px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">✅ Відновити (є в наявності)</button>`:''}
+  </div>` : '';
+
+  document.getElementById('car-detail-info').innerHTML = `
+    <div style="margin-bottom:8px;"><span class="car-detail-status ${sl.cls}">${sl.txt}</span></div>
+    <div class="car-detail-title">${car.year} ${car.make} ${car.model}${car.generation?' — '+car.generation:''}</div>
+    <div class="car-detail-price">$${car.price?car.price.toLocaleString():'—'}</div>
+    ${editBtn}
+    <div class="car-detail-specs">${specs.map(s=>`<div class="car-spec-item"><div class="spec-label">${s.label}</div><div class="spec-val">${s.val}</div></div>`).join('')}</div>
+    ${car.desc?`<div class="car-detail-desc">${car.desc}</div>`:''}
+    <div class="car-detail-btns">
+      <a class="btn-contact-big orange" href="tel:+380000000000">📞 Зателефонувати</a>
+      <a class="btn-contact-big green" href="https://wa.me/380000000000" target="_blank">💬 WhatsApp</a>
+      <a class="btn-contact-big blue" href="https://t.me/automix_ua" target="_blank">✈️ Telegram</a>
+    </div>`;
+
+  // Store carId for lightbox
+  window._cdCarId = carId;
+
+  const detailPage = document.getElementById('car-detail-page');
+  detailPage.classList.add('open');
+  detailPage.style.cssText = 'position:fixed;inset:0;z-index:500;overflow-y:auto;background:var(--bg);';
+  window.scrollTo(0,0);
+}
+
+function openLightboxDirect(startIdx, carId) {
+  const car = cars.find(c=>c.id===carId);
+  if (!car) return;
+  lbPhotos = car.photos && car.photos.length ? car.photos : [];
+  if (!lbPhotos.length) return;
+  lbIdx = startIdx;
+  renderLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function cdThumb(idx, carIdStr) {
+  const carId = parseInt(carIdStr)||carIdStr;
+  const car = cars.find(c=>c.id===carId);
+  if (!car || !car.photos[idx]) return;
+  document.getElementById('cd-main-img').src = car.photos[idx];
+  document.querySelectorAll('.car-detail-thumb').forEach((t,i)=>t.classList.toggle('active',i===idx));
+}
+
+function closeCarDetail() {
+  const dp = document.getElementById('car-detail-page');
+  dp.classList.remove('open');
+  dp.style.cssText = '';
+}
+
+function quickSetStatus(carId, status) {
+  const car = cars.find(c=>c.id===carId);
+  if (!car) return;
+  car.status = status;
+  // Save to Firebase
+  saveCarToFirebase({...car}).catch(()=>{});
+  renderCars(); renderPreview();
+  closeCarDetail();
+  openCarDetail(carId);
+}
+
+// ========== RENDER CARS ==========
+function renderCars() {
+  const g = document.getElementById('cars-grid');
+  const f = currentFilter==='all' ? cars : cars.filter(c=>c.status===currentFilter);
+  g.innerHTML = f.length ? f.map(carCardHTML).join('') : `<div class="empty-state"><div class="big-icon">🚗</div><h3>Авто ще немає</h3><p>Натисніть "+ Додати авто"</p></div>`;
+}
+
+function renderPreview() {
+  const el = document.getElementById('home-cars-preview');
+  const p = cars.slice(0,3);
+  el.innerHTML = p.length ? `<div class="cars-grid" style="padding:0;">${p.map(carCardHTML).join('')}</div>` : `<div style="text-align:center;padding:2rem;color:#555">Авто поки немає</div>`;
+}
+
+function filterCars(s, btn) {
+  currentFilter = s;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); renderCars();
+}
+
+// ========== DELETE ==========
+async function deleteCar(e, id) {
+  e.stopPropagation();
+  if (!isAdmin) return;
+  if (!confirm('Видалити це оголошення?')) return;
+  cars = cars.filter(c=>c.id!==id);
+  renderCars(); renderPreview();
+  try { await deleteCarFromFirebase(id); } catch(e) {}
+}
+
+// ========== MODAL OPEN/CLOSE ==========
+function openModal() {
+  if (!isAdmin) { alert('Увійдіть як адмін (⚙️) щоб додавати авто'); return; }
+  editingCarId = null;
+  document.getElementById('modal-title').innerHTML = 'Додати авто <b>з США 🇺🇸</b>';
+  document.getElementById('modal-save-btn').textContent = '💾 Зберегти авто';
+  clearModalForm();
+  document.getElementById('modal').classList.add('open');
+  renderPhotoGrid();
+}
+
+function openEditModal(e, id) {
+  if (e) e.stopPropagation();
+  if (!isAdmin) return;
+  const car = cars.find(c=>c.id===id);
+  if (!car) return;
+  editingCarId = id;
+  document.getElementById('modal-title').innerHTML = 'Редагувати <b>оголошення ✏️</b>';
+  document.getElementById('modal-save-btn').textContent = '✏️ Оновити оголошення';
+  clearModalForm();
+
+  // Fill form
+  document.getElementById('f-make').value = car.make;
+  updateModels();
+  setTimeout(()=>{ document.getElementById('f-model').value = car.model; }, 50);
+  document.getElementById('f-generation').value = car.generation||'';
+  document.getElementById('f-year').value = car.year||'';
+  document.getElementById('f-price').value = car.price||'';
+  document.getElementById('f-mileage').value = car.mileage||'';
+  document.getElementById('f-body').value = car.body||'';
+  document.getElementById('f-engine').value = car.engine||'';
+  document.getElementById('f-transmission').value = car.transmission||'';
+  document.getElementById('f-drive').value = car.drive||'';
+  document.getElementById('f-engine-vol').value = car.engineVol||'';
+  document.getElementById('f-desc').value = car.desc||'';
+  document.getElementById('f-emoji').value = car.emoji||'🚗';
+  currentPhotos = [...(car.photos||[])];
+  setStatusToggle(car.status||'transit');
+  renderPhotoGrid();
+  document.getElementById('modal').classList.add('open');
+}
+
+function clearModalForm() {
+  ['f-year','f-price','f-mileage','f-desc','f-emoji','f-generation','f-engine-vol'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('f-make').value='';
+  document.getElementById('f-model').innerHTML='<option value="">— Спочатку оберіть марку —</option>';
+  document.getElementById('f-body').value='';
+  document.getElementById('f-engine').value='';
+  document.getElementById('f-transmission').value='';
+  document.getElementById('f-drive').value='';
+  setStatusToggle('transit');
+  currentPhotos = [];
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  clearModalForm();
+  renderPhotoGrid();
+}
+
+// ========== PHOTOS ==========
+function renderPhotoGrid() {
+  const grid = document.getElementById('multi-photo-grid');
+  let html = currentPhotos.map((p,i)=>`
+    <div class="multi-photo-item">
+      <img src="${p}" alt="фото ${i+1}">
+      <button class="multi-photo-del" onclick="removePhoto(${i})">✕</button>
+    </div>`).join('');
+  if (currentPhotos.length < 15) {
+    html += `<div class="multi-photo-add" onclick="document.getElementById('f-photos').click()">📷<span style="font-size:11px;margin-top:3px">Додати</span></div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function addCarPhotos(e) {
+  const files = [...e.target.files];
+  const remaining = 15 - currentPhotos.length;
+  files.slice(0, remaining).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => { currentPhotos.push(ev.target.result); renderPhotoGrid(); };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+}
+
+function removePhoto(idx) { currentPhotos.splice(idx, 1); renderPhotoGrid(); }
+
+// ========== SAVE CAR ==========
+async function saveCar() {
+  const make = document.getElementById('f-make').value.trim();
+  const model = document.getElementById('f-model').value.trim();
+  if (!make||!model) { alert('Вкажіть марку і модель!'); return; }
+  const saveBtn = document.getElementById('modal-save-btn');
+  saveBtn.textContent = '⏳ Збереження...';
+  saveBtn.disabled = true;
+  const data = {
+    make, model,
+    generation: document.getElementById('f-generation').value.trim(),
+    year: parseInt(document.getElementById('f-year').value)||2024,
+    price: parseInt(document.getElementById('f-price').value)||0,
+    mileage: parseInt(document.getElementById('f-mileage').value)||0,
+    status: document.getElementById('f-status').value,
+    body: document.getElementById('f-body').value||'',
+    engine: document.getElementById('f-engine').value||'',
+    transmission: document.getElementById('f-transmission').value||'',
+    drive: document.getElementById('f-drive').value||'',
+    engineVol: document.getElementById('f-engine-vol').value.trim(),
+    desc: document.getElementById('f-desc').value.trim(),
+    emoji: document.getElementById('f-emoji').value.trim()||'🚗',
+    photos: [...currentPhotos]
+  };
+
+  if (editingCarId !== null) {
+    data.id = editingCarId;
+    const idx = cars.findIndex(c=>c.id===editingCarId);
+    try {
+      const saved = await saveCarToFirebase(data);
+      if (idx >= 0) cars[idx] = saved;
+    } catch(e) {
+      if (idx >= 0) cars[idx] = { ...cars[idx], ...data };
+    }
+    editingCarId = null;
+  } else {
+    data.id = nextId++;
+    try {
+      const saved = await saveCarToFirebase(data);
+      cars.unshift(saved);
+    } catch(e) {
+      cars.unshift(data);
+    }
+  }
+  saveBtn.textContent = '💾 Зберегти авто';
+  saveBtn.disabled = false;
+  closeModal(); renderCars(); renderPreview();
+}
+
+// ========== FORMS ==========
+function submitTradein() {
+  const car = document.getElementById('ti-my-car').value.trim();
+  const phone = document.getElementById('ti-phone').value.trim();
+  if (!car||!phone) { alert('Заповніть авто та телефон!'); return; }
+  document.getElementById('ti-success').classList.add('show');
+  setTimeout(()=>document.getElementById('ti-success').classList.remove('show'), 5000);
+}
+
+function submitSearch() {
+  const phone = document.getElementById('sr-phone').value.trim();
+  const name = document.getElementById('sr-name').value.trim();
+  if (!phone) { alert('Вкажіть ваш телефон!'); return; }
+  document.getElementById('sr-success').classList.add('show');
+  setTimeout(()=>document.getElementById('sr-success').classList.remove('show'), 5000);
+}
+
+// ========== EXPOSE GLOBALS (needed for inline onclick in module) ==========
+window.showPage = showPage;
+window.toggleTheme = toggleTheme;
+window.toggleAdmin = toggleAdmin;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.saveCar = saveCar;
+window.deleteCar = deleteCar;
+window.filterCars = filterCars;
+window.openCarDetail = openCarDetail;
+window.closeCarDetail = closeCarDetail;
+window.openEditModal = openEditModal;
+window.quickSetStatus = quickSetStatus;
+window.addCarPhotos = addCarPhotos;
+window.removePhoto = removePhoto;
+window.updateModels = updateModels;
+window.updateSearchModels = updateSearchModels;
+window.setStatusToggle = setStatusToggle;
+window.galleryPrev = galleryPrev;
+window.galleryNext = galleryNext;
+window.gallerGoto = gallerGoto;
+window.openLightbox = openLightbox;
+window.openLightboxDirect = openLightboxDirect;
+window.closeLightbox = closeLightbox;
+window.closeLightboxOnBg = closeLightboxOnBg;
+window.lightboxPrev = lightboxPrev;
+window.lightboxNext = lightboxNext;
+window.lbGoto = lbGoto;
+window.cdThumb = cdThumb;
+window.gotoHeroSlide = gotoHeroSlide;
+window.addHeroBg = addHeroBg;
+window.clearHeroBgs = clearHeroBgs;
+window.submitTradein = submitTradein;
+window.submitSearch = submitSearch;
+
+// Show setup notice if config not filled
+if (firebaseConfig.apiKey === 'YOUR_API_KEY') {
+  document.getElementById('firebase-notice').style.display = 'block';
+}
+
+populateMakes();
+renderPreview();
+</script>
+</body>
+</html>
