@@ -345,7 +345,7 @@ footer b { color: var(--orange); }
   <div class="nav-logo" onclick="showPage('home')"><span>АВТО <b>МІКС</b></span></div>
   <div class="nav-links">
     <a class="active" id="nav-home" onclick="showPage('home')">Головна</a>
-    <a id="nav-cars" onclick="showPage('cars')">Авто з США 🇺🇸</a>
+    <a id="nav-cars" onclick="showPage('cars')">Авто в наявності</a>
     <a id="nav-search" onclick="showPage('search')">🔍 Підбір авто</a>
     <a id="nav-tradein" onclick="showPage('tradein')">Trade-IN</a>
     <a id="nav-contact" onclick="showPage('contact')">Контакти</a>
@@ -698,7 +698,7 @@ footer b { color: var(--orange); }
 <!-- ADD/EDIT CAR MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <h3 id="modal-title">Додати авто <b>з США 🇺🇸</b></h3>
+    <h3 id="modal-title">Додати авто <b></b></h3>
     <div class="form-grid">
       <div class="form-group full">
         <label>Фото авто (до 15 фото)</label>
@@ -1413,7 +1413,7 @@ async function deleteCar(e, id) {
 function openModal() {
   if (!isAdmin) { alert('Увійдіть як адмін (⚙️) щоб додавати авто'); return; }
   editingCarId = null;
-  document.getElementById('modal-title').innerHTML = 'Додати авто <b>з США 🇺🇸</b>';
+  document.getElementById('modal-title').innerHTML = 'Додати авто </b>';
   document.getElementById('modal-save-btn').textContent = '💾 Зберегти авто';
   clearModalForm();
   document.getElementById('modal').classList.add('open');
