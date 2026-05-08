@@ -337,9 +337,373 @@ footer b { color: var(--orange); }
   .hero { min-height: 380px; }
   .multi-photo-grid { grid-template-columns: repeat(3, 1fr); }
 }
-</style>
-</head>
-<body>
+
+/* ===== SPLASH SCREEN ===== */
+#splash-screen {
+  position: fixed; inset: 0; z-index: 99999;
+  background: radial-gradient(ellipse at 50% 60%, #0d0d0d 0%, #000 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; transition: opacity 0.7s ease;
+  font-family: 'Bebas Neue', sans-serif;
+}
+#splash-screen.fade-out { opacity: 0; pointer-events: none; }
+.splash-ground {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 38%;
+  background: linear-gradient(to top, #0a0500 0%, transparent 100%);
+}
+.splash-glow-road {
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 180px solid transparent;
+  border-right: 180px solid transparent;
+  border-bottom: 320px solid rgba(232,118,26,0.04);
+  filter: blur(20px);
+  transition: all 1.5s ease;
+}
+.splash-glow-road.lit {
+  border-left-width: 380px; border-right-width: 380px;
+  border-bottom-color: rgba(232,118,26,0.10);
+  filter: blur(40px);
+}
+
+/* SVG car container */
+.splash-car-wrap {
+  position: relative; width: 520px; max-width: 92vw;
+  animation: splashFloat 3s ease-in-out infinite;
+}
+@keyframes splashFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Headlight glow layers */
+.hl-glow {
+  position: absolute; border-radius: 50%;
+  opacity: 0; transition: opacity 1s ease, box-shadow 1s ease;
+  pointer-events: none;
+}
+.hl-glow.left  { width: 90px; height: 40px; left: 58px;  top: 90px; }
+.hl-glow.right { width: 90px; height: 40px; right: 58px; top: 90px; }
+.hl-glow.on {
+  opacity: 1;
+  background: radial-gradient(ellipse, rgba(255,220,100,0.8) 0%, rgba(232,118,26,0.3) 40%, transparent 75%);
+  box-shadow: 0 0 40px 15px rgba(255,200,80,0.4), 0 0 90px 40px rgba(232,118,26,0.15);
+}
+/* Beam cones */
+.hl-beam {
+  position: absolute; opacity: 0; pointer-events: none;
+  width: 0; height: 0; transition: opacity 1.2s ease;
+}
+.hl-beam.left  { left: 88px;  top: 108px; border-left: 120px solid transparent; border-right: 0; border-top: 260px solid rgba(255,200,80,0.07); transform-origin: top right; transform: rotate(-18deg); filter: blur(8px); }
+.hl-beam.right { right: 88px; top: 108px; border-right: 120px solid transparent; border-left: 0; border-top: 260px solid rgba(255,200,80,0.07); transform-origin: top left; transform: rotate(18deg); filter: blur(8px); }
+.hl-beam.on { opacity: 1; }
+
+.splash-label {
+  margin-top: 24px; font-size: 3rem; letter-spacing: 8px; color: #fff;
+  text-shadow: 0 0 20px rgba(232,118,26,0.6);
+  opacity: 0; animation: splashLabelIn 1s 1.6s ease forwards;
+}
+.splash-sub {
+  font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 4px;
+  color: rgba(232,118,26,0.8); text-transform: uppercase;
+  opacity: 0; animation: splashLabelIn 1s 2s ease forwards;
+  margin-top: 4px;
+}
+@keyframes splashLabelIn { to { opacity: 1; } }
+
+.splash-enter-btn {
+  margin-top: 32px; background: transparent;
+  border: 1px solid rgba(232,118,26,0.7); color: #fff;
+  padding: 12px 38px; border-radius: 40px; font-size: 14px; font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase; cursor: pointer;
+  box-shadow: 0 0 18px rgba(232,118,26,0.3);
+  opacity: 0; animation: splashLabelIn 0.8s 2.4s ease forwards;
+  transition: all 0.3s; font-family: 'Inter', sans-serif;
+}
+.splash-enter-btn:hover {
+  background: var(--orange); border-color: var(--orange);
+  box-shadow: 0 0 30px rgba(232,118,26,0.6);
+  transform: scale(1.05);
+}
+
+/* ===== CAR HEADLIGHT NAV ===== */
+.car-nav-wrapper {
+  position: relative; overflow: visible;
+}
+nav {
+  position: relative; z-index: 200;
+}
+/* Nav link LED style */
+.nav-links a {
+  position: relative; overflow: hidden;
+}
+.nav-links a::before {
+  content: ''; position: absolute; bottom: 0; left: 50%; right: 50%;
+  height: 2px; background: var(--orange);
+  box-shadow: 0 0 8px var(--orange), 0 0 16px rgba(232,118,26,0.5);
+  transition: left 0.3s ease, right 0.3s ease;
+}
+.nav-links a:hover::before, .nav-links a.active::before {
+  left: 8px; right: 8px;
+}
+/* Car front decoration under nav */
+.nav-car-front {
+  width: 100%; height: 6px;
+  background: linear-gradient(to right,
+    transparent 0%,
+    transparent 8%,
+    var(--orange) 15%,
+    #ffcc44 20%,
+    rgba(255,220,120,0.9) 22%,
+    rgba(255,220,120,0.2) 25%,
+    transparent 35%,
+    transparent 65%,
+    rgba(255,220,120,0.2) 75%,
+    rgba(255,220,120,0.9) 78%,
+    #ffcc44 80%,
+    var(--orange) 85%,
+    transparent 92%,
+    transparent 100%
+  );
+  box-shadow: 0 0 12px rgba(255,180,50,0.4), 0 0 28px rgba(232,118,26,0.2);
+  position: sticky; top: 60px; z-index: 199;
+}
+/* Headlight pulse on nav item hover */
+@keyframes headlightPulse {
+  0%,100% { box-shadow: 0 0 6px var(--orange); }
+  50% { box-shadow: 0 0 16px var(--orange), 0 0 32px rgba(232,118,26,0.4); }
+}
+.nav-links a:hover {
+  animation: headlightPulse 1.2s infinite;
+}
+
+/* ===== CURSOR HEADLIGHT EFFECT ===== */
+#cursor-light {
+  position: fixed; pointer-events: none; z-index: 9000;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+    rgba(255,200,80,0.06) 0%,
+    rgba(232,118,26,0.03) 30%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  transition: left 0.08s ease, top 0.08s ease;
+  mix-blend-mode: screen;
+}
+/* Left headlight beam */
+#cursor-light-left, #cursor-light-right {
+  position: fixed; pointer-events: none; z-index: 8999;
+  opacity: 0.45; transition: left 0.08s ease, top 0.08s ease;
+}
+#cursor-light-left {
+  width: 0; height: 0;
+  border-left: 0; border-right: 180px solid transparent;
+  border-top: 380px solid rgba(255,220,100,0.04);
+  filter: blur(10px);
+  transform-origin: top left;
+}
+#cursor-light-right {
+  width: 0; height: 0;
+  border-right: 0; border-left: 180px solid transparent;
+  border-top: 380px solid rgba(255,220,100,0.04);
+  filter: blur(10px);
+  transform-origin: top right;
+}
+
+/* ===== TIKTOK WIDGET ===== */
+#tiktok-widget {
+  position: fixed; bottom: 20px; right: 20px; z-index: 8888;
+  width: 300px; border-radius: 16px;
+  background: #111; border: 1px solid rgba(232,118,26,0.5);
+  box-shadow: 0 0 24px rgba(232,118,26,0.2), 0 8px 32px rgba(0,0,0,0.6);
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  overflow: hidden;
+}
+#tiktok-widget.minimized { width: 200px; }
+#tiktok-widget.closed { display: none; }
+.tiktok-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; background: rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(232,118,26,0.3);
+  cursor: move;
+}
+.tiktok-header .tt-logo { font-size: 18px; }
+.tiktok-header .tt-title { flex: 1; font-size: 13px; font-weight: 700; color: #fff; font-family: 'Inter', sans-serif; }
+.tt-btn {
+  background: none; border: none; color: rgba(255,255,255,0.6);
+  font-size: 15px; cursor: pointer; padding: 2px 5px;
+  border-radius: 4px; transition: all 0.2s; line-height: 1;
+}
+.tt-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.tiktok-body { padding: 14px; }
+.tiktok-body.hidden { display: none; }
+.tt-profile-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(232,118,26,0.15), rgba(0,0,0,0.3));
+  border: 1px solid rgba(232,118,26,0.35);
+  text-decoration: none; margin-bottom: 12px;
+  transition: all 0.2s;
+}
+.tt-profile-link:hover {
+  background: rgba(232,118,26,0.25);
+  box-shadow: 0 0 16px rgba(232,118,26,0.2);
+}
+.tt-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.tt-info .tt-name { font-size: 13px; font-weight: 700; color: #fff; font-family: 'Inter', sans-serif; }
+.tt-info .tt-handle { font-size: 11px; color: rgba(232,118,26,0.8); font-family: 'Inter', sans-serif; }
+.tt-videos-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; font-family: 'Inter', sans-serif; }
+.tt-video-cards { display: flex; flex-direction: column; gap: 8px; }
+.tt-video-card {
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+  border-radius: 10px; border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.04); text-decoration: none;
+  transition: all 0.2s;
+}
+.tt-video-card:hover { border-color: rgba(232,118,26,0.4); background: rgba(232,118,26,0.08); }
+.tt-video-thumb { width: 44px; height: 58px; border-radius: 6px; background: linear-gradient(135deg, #1a1a1a, #2a2a2a); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.tt-video-info .tt-video-title { font-size: 12px; color: #fff; font-family: 'Inter', sans-serif; line-height: 1.4; }
+.tt-video-info .tt-video-views { font-size: 11px; color: var(--orange); margin-top: 3px; font-family: 'Inter', sans-serif; }
+.tt-open-app {
+  display: block; text-align: center; margin-top: 12px;
+  padding: 9px; border-radius: 10px; font-size: 12px; font-weight: 700;
+  background: var(--orange); color: #fff; text-decoration: none;
+  transition: all 0.2s; font-family: 'Inter', sans-serif;
+  letter-spacing: 0.5px;
+}
+.tt-open-app:hover { background: var(--orange-dark); box-shadow: 0 0 16px rgba(232,118,26,0.4); }
+/* Pulsing dot */
+.tt-live-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #ff4d4d;
+  animation: ttPulse 1.5s infinite; flex-shrink: 0;
+}
+@keyframes ttPulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.7); } }
+
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash-screen" onclick="enterSite()">
+  <div class="splash-ground"></div>
+  <div class="splash-glow-road" id="splash-road"></div>
+  <div class="splash-car-wrap">
+    <div class="hl-glow left" id="hl-left"></div>
+    <div class="hl-glow right" id="hl-right"></div>
+    <div class="hl-beam left" id="beam-left"></div>
+    <div class="hl-beam right" id="beam-right"></div>
+    <!-- Audi e-tron GT front SVG -->
+    <svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;filter:drop-shadow(0 20px 40px rgba(0,0,0,0.8))">
+      <!-- Body main shape -->
+      <path d="M30 230 Q50 200 80 185 L100 170 Q140 155 200 148 L260 145 L320 148 Q380 155 420 170 L440 185 Q470 200 490 230 L500 260 L20 260 Z" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1"/>
+      <!-- Hood -->
+      <path d="M90 170 Q170 130 260 125 Q350 130 430 170 L420 175 Q350 145 260 140 Q170 145 100 175 Z" fill="#141414" stroke="#252525" stroke-width="1"/>
+      <!-- Windshield lower edge -->
+      <path d="M95 175 Q175 145 260 140 Q345 145 425 175" fill="none" stroke="#333" stroke-width="2"/>
+      <!-- Front bumper lower -->
+      <path d="M55 215 Q90 200 150 195 L200 192 L260 190 L320 192 L370 195 Q430 200 465 215 L470 240 L50 240 Z" fill="#111" stroke="#222" stroke-width="1"/>
+      <!-- Center grille - honeycomb style -->
+      <rect x="185" y="210" width="150" height="50" rx="4" fill="#0a0a0a" stroke="rgba(232,118,26,0.6)" stroke-width="1.5"/>
+      <!-- Grille lines vertical -->
+      <line x1="210" y1="210" x2="210" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="230" y1="210" x2="230" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="250" y1="210" x2="250" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="270" y1="210" x2="270" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="290" y1="210" x2="290" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="310" y1="210" x2="310" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <!-- Grille lines horizontal -->
+      <line x1="185" y1="222" x2="335" y2="222" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="185" y1="235" x2="335" y2="235" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="185" y1="248" x2="335" y2="248" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <!-- Center Audi rings emblem -->
+      <circle cx="240" cy="235" r="8" fill="none" stroke="#888" stroke-width="1.5"/>
+      <circle cx="252" cy="235" r="8" fill="none" stroke="#888" stroke-width="1.5"/>
+      <circle cx="264" cy="235" r="8" fill="none" stroke="#888" stroke-width="1.5"/>
+      <circle cx="276" cy="235" r="8" fill="none" stroke="#888" stroke-width="1.5"/>
+      <!-- LEFT headlight assembly -->
+      <g id="svg-hl-left">
+        <path d="M70 185 Q90 178 130 176 L155 175 L158 195 L140 198 Q105 200 78 208 L68 210 Z" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1"/>
+        <!-- DRL strip -->
+        <path d="M78 186 Q100 180 135 178 L152 178" fill="none" stroke="rgba(255,220,100,0.15)" stroke-width="3" stroke-linecap="round" id="drl-left"/>
+        <!-- Main light unit -->
+        <ellipse cx="115" cy="190" rx="30" ry="9" fill="#0a0a0a" stroke="#222" stroke-width="1"/>
+        <!-- Inner light -->
+        <ellipse cx="115" cy="190" rx="16" ry="5" fill="#111" id="hl-inner-left"/>
+        <!-- Light lines  -->
+        <line x1="95" y1="188" x2="135" y2="188" stroke="rgba(255,220,100,0.08)" stroke-width="1" id="hl-line-left"/>
+      </g>
+      <!-- RIGHT headlight assembly -->
+      <g id="svg-hl-right">
+        <path d="M450 185 Q430 178 390 176 L365 175 L362 195 L380 198 Q415 200 442 208 L452 210 Z" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1"/>
+        <!-- DRL strip -->
+        <path d="M442 186 Q420 180 385 178 L368 178" fill="none" stroke="rgba(255,220,100,0.15)" stroke-width="3" stroke-linecap="round" id="drl-right"/>
+        <!-- Main light unit -->
+        <ellipse cx="405" cy="190" rx="30" ry="9" fill="#0a0a0a" stroke="#222" stroke-width="1"/>
+        <!-- Inner light -->
+        <ellipse cx="405" cy="190" rx="16" ry="5" fill="#111" id="hl-inner-right"/>
+        <line x1="385" y1="188" x2="425" y2="188" stroke="rgba(255,220,100,0.08)" stroke-width="1" id="hl-line-right"/>
+      </g>
+      <!-- Side air intakes -->
+      <path d="M55 215 Q70 210 80 212 L82 228 L52 228 Z" fill="#0a0a0a" stroke="#1e1e1e" stroke-width="1"/>
+      <path d="M465 215 Q450 210 440 212 L438 228 L468 228 Z" fill="#0a0a0a" stroke="#1e1e1e" stroke-width="1"/>
+      <!-- Lower lip / splitter -->
+      <path d="M45 255 L475 255 L475 265 Q260 270 45 265 Z" fill="#0f0f0f" stroke="#1a1a1a" stroke-width="1"/>
+      <!-- LED accent line connecting headlights -->
+      <path d="M158 182 L185 208 M335 208 L362 182" fill="none" stroke="rgba(232,118,26,0.2)" stroke-width="1.5" id="led-accent"/>
+    </svg>
+  </div>
+  <div class="splash-label">АВТО <span style="color:var(--orange)">МІКС</span></div>
+  <div class="splash-sub">Натисніть, щоб увійти</div>
+  <button class="splash-enter-btn" onclick="enterSite()">⚡ ВІДКРИТИ САЙТ</button>
+</div>
+
+<!-- ===== CURSOR HEADLIGHT ===== -->
+<div id="cursor-light"></div>
+<div id="cursor-light-left"></div>
+<div id="cursor-light-right"></div>
+
+<!-- ===== TIKTOK WIDGET ===== -->
+<div id="tiktok-widget">
+  <div class="tiktok-header" id="tt-header">
+    <div class="tt-logo">🎵</div>
+    <div class="tt-title">TikTok · АВТО МІКС</div>
+    <div class="tt-live-dot"></div>
+    <button class="tt-btn" onclick="minimizeTT()" title="Згорнути">—</button>
+    <button class="tt-btn" onclick="closeTT()" title="Закрити">✕</button>
+  </div>
+  <div class="tiktok-body" id="tt-body">
+    <a class="tt-profile-link" href="https://www.tiktok.com/@automix_lviv" target="_blank" rel="noopener">
+      <div class="tt-avatar">🚗</div>
+      <div class="tt-info">
+        <div class="tt-name">АВТО МІКС</div>
+        <div class="tt-handle">@automix_lviv</div>
+      </div>
+    </a>
+    <div class="tt-videos-label">🔥 Наші відео</div>
+    <div class="tt-video-cards">
+      <a class="tt-video-card" href="https://www.tiktok.com/@automix_lviv" target="_blank" rel="noopener">
+        <div class="tt-video-thumb">🚗</div>
+        <div class="tt-video-info">
+          <div class="tt-video-title">Авто зі США — свіжі надходження!</div>
+          <div class="tt-video-views">▶ Дивитися на TikTok</div>
+        </div>
+      </a>
+      <a class="tt-video-card" href="https://www.tiktok.com/@automix_lviv" target="_blank" rel="noopener">
+        <div class="tt-video-thumb">🔄</div>
+        <div class="tt-video-info">
+          <div class="tt-video-title">Trade-IN — як це працює?</div>
+          <div class="tt-video-views">▶ Дивитися на TikTok</div>
+        </div>
+      </a>
+      <a class="tt-video-card" href="https://www.tiktok.com/@automix_lviv" target="_blank" rel="noopener">
+        <div class="tt-video-thumb">💰</div>
+        <div class="tt-video-info">
+          <div class="tt-video-title">Автовикуп за 30 хвилин</div>
+          <div class="tt-video-views">▶ Дивитися на TikTok</div>
+        </div>
+      </a>
+    </div>
+    <a class="tt-open-app" href="https://www.tiktok.com/@automix_lviv" target="_blank" rel="noopener">🎵 Відкрити TikTok профіль</a>
+  </div>
+</div>
 
 <nav>
   <div class="nav-logo" onclick="showPage('home')"><span>АВТО <b>МІКС</b></span></div>
@@ -357,6 +721,8 @@ footer b { color: var(--orange); }
     <button class="nav-cta" onclick="showPage('contact')">📞 Зв'язок</button>
   </div>
 </nav>
+
+<div class="nav-car-front"></div>
 
 <!-- Firebase setup notice -->
 <div id="firebase-notice" style="display:none;background:#1a0f00;border-bottom:2px solid var(--orange);padding:12px 20px;font-size:13px;color:#ffcc88;">
@@ -1594,6 +1960,81 @@ window.addHeroBg = addHeroBg;
 window.clearHeroBgs = clearHeroBgs;
 window.submitTradein = submitTradein;
 window.submitSearch = submitSearch;
+
+
+// ========== SPLASH SCREEN ==========
+(function() {
+  const splash = document.getElementById('splash-screen');
+  if (!splash) return;
+
+  // Animate headlights on
+  setTimeout(() => {
+    // DRL strips first
+    document.getElementById('drl-left').style.stroke = 'rgba(255,220,100,0.6)';
+    document.getElementById('drl-right').style.stroke = 'rgba(255,220,100,0.6)';
+    document.getElementById('led-accent').style.stroke = 'rgba(232,118,26,0.6)';
+  }, 400);
+  setTimeout(() => {
+    document.getElementById('hl-left').classList.add('on');
+    document.getElementById('hl-inner-left').style.fill = 'rgba(255,220,100,0.4)';
+    document.getElementById('hl-line-left').style.stroke = 'rgba(255,220,100,0.6)';
+    document.getElementById('beam-left').classList.add('on');
+  }, 700);
+  setTimeout(() => {
+    document.getElementById('hl-right').classList.add('on');
+    document.getElementById('hl-inner-right').style.fill = 'rgba(255,220,100,0.4)';
+    document.getElementById('hl-line-right').style.stroke = 'rgba(255,220,100,0.6)';
+    document.getElementById('beam-right').classList.add('on');
+    document.getElementById('splash-road').classList.add('lit');
+  }, 1000);
+})();
+
+function enterSite() {
+  const splash = document.getElementById('splash-screen');
+  splash.classList.add('fade-out');
+  setTimeout(() => { splash.style.display = 'none'; }, 750);
+}
+
+// ========== CURSOR HEADLIGHT EFFECT ==========
+(function() {
+  const light = document.getElementById('cursor-light');
+  const lLeft = document.getElementById('cursor-light-left');
+  const lRight = document.getElementById('cursor-light-right');
+  if (!light) return;
+  document.addEventListener('mousemove', (e) => {
+    const x = e.clientX, y = e.clientY;
+    light.style.left = x + 'px';
+    light.style.top = y + 'px';
+    lLeft.style.left = (x - 60) + 'px';
+    lLeft.style.top = y + 'px';
+    lRight.style.left = (x + 60) + 'px';
+    lRight.style.top = y + 'px';
+  });
+})();
+
+// ========== TIKTOK WIDGET ==========
+let ttMinimized = false;
+function minimizeTT() {
+  const widget = document.getElementById('tiktok-widget');
+  const body = document.getElementById('tt-body');
+  ttMinimized = !ttMinimized;
+  widget.classList.toggle('minimized', ttMinimized);
+  body.classList.toggle('hidden', ttMinimized);
+}
+function closeTT() {
+  document.getElementById('tiktok-widget').classList.add('closed');
+}
+
+// Show widget after 3 seconds (not immediately)
+setTimeout(() => {
+  const w = document.getElementById('tiktok-widget');
+  if (w) { w.style.opacity = '0'; w.style.transform = 'translateY(20px)'; w.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; setTimeout(() => { w.style.opacity = '1'; w.style.transform = 'translateY(0)'; }, 50); }
+}, 3000);
+
+// ========== EXPOSE NEW GLOBALS ==========
+window.enterSite = enterSite;
+window.minimizeTT = minimizeTT;
+window.closeTT = closeTT;
 
 // Show setup notice if config not filled
 if (firebaseConfig.apiKey === 'YOUR_API_KEY') {
