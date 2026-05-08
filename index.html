@@ -338,370 +338,233 @@ footer b { color: var(--orange); }
   .multi-photo-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* ===== SPLASH SCREEN ===== */
-#splash-screen {
+/* ========== SPLASH ========== */
+#splash {
   position: fixed; inset: 0; z-index: 99999;
-  background: radial-gradient(ellipse at 50% 60%, #0d0d0d 0%, #000 100%);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  cursor: pointer; transition: opacity 0.7s ease;
+  background: #000;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity 0.8s ease;
   font-family: 'Bebas Neue', sans-serif;
 }
-#splash-screen.fade-out { opacity: 0; pointer-events: none; }
-.splash-ground {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 38%;
-  background: linear-gradient(to top, #0a0500 0%, transparent 100%);
+#splash.hide { opacity: 0; pointer-events: none; }
+.sp-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 70%, rgba(232,118,26,0.08) 0%, transparent 70%);
+  transition: opacity 1.5s ease; opacity: 0;
 }
-.splash-glow-road {
-  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 0; height: 0;
-  border-left: 180px solid transparent;
-  border-right: 180px solid transparent;
-  border-bottom: 320px solid rgba(232,118,26,0.04);
-  filter: blur(20px);
-  transition: all 1.5s ease;
+.sp-glow.on { opacity: 1; }
+.sp-car {
+  width: min(500px, 90vw);
+  animation: spFloat 3s ease-in-out infinite;
+  position: relative;
 }
-.splash-glow-road.lit {
-  border-left-width: 380px; border-right-width: 380px;
-  border-bottom-color: rgba(232,118,26,0.10);
-  filter: blur(40px);
+@keyframes spFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.sp-title {
+  font-size: clamp(2rem, 8vw, 4rem);
+  letter-spacing: 8px; color: #fff; margin-top: 24px;
+  text-shadow: 0 0 30px rgba(232,118,26,0.5);
+  opacity: 0; transition: opacity 1s ease;
 }
+.sp-title.on { opacity: 1; }
+.sp-title b { color: #E8761A; }
+.sp-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px; letter-spacing: 4px; color: #E8761A;
+  text-transform: uppercase; margin-top: 6px;
+  opacity: 0; transition: opacity 1s ease 0.3s;
+}
+.sp-sub.on { opacity: 1; }
+.sp-hint {
+  margin-top: 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; letter-spacing: 3px; color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  opacity: 0; transition: opacity 1s ease 0.6s;
+  animation: hintPulse 2s ease-in-out infinite;
+}
+.sp-hint.on { opacity: 1; }
+@keyframes hintPulse { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
 
-/* SVG car container */
-.splash-car-wrap {
-  position: relative; width: 520px; max-width: 92vw;
-  animation: splashFloat 3s ease-in-out infinite;
-}
-@keyframes splashFloat {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-/* Headlight glow layers */
-.hl-glow {
-  position: absolute; border-radius: 50%;
-  opacity: 0; transition: opacity 1s ease, box-shadow 1s ease;
-  pointer-events: none;
-}
-.hl-glow.left  { width: 90px; height: 40px; left: 58px;  top: 90px; }
-.hl-glow.right { width: 90px; height: 40px; right: 58px; top: 90px; }
-.hl-glow.on {
-  opacity: 1;
-  background: radial-gradient(ellipse, rgba(255,220,100,0.8) 0%, rgba(232,118,26,0.3) 40%, transparent 75%);
-  box-shadow: 0 0 40px 15px rgba(255,200,80,0.4), 0 0 90px 40px rgba(232,118,26,0.15);
-}
-/* Beam cones */
-.hl-beam {
-  position: absolute; opacity: 0; pointer-events: none;
-  width: 0; height: 0; transition: opacity 1.2s ease;
-}
-.hl-beam.left  { left: 88px;  top: 108px; border-left: 120px solid transparent; border-right: 0; border-top: 260px solid rgba(255,200,80,0.07); transform-origin: top right; transform: rotate(-18deg); filter: blur(8px); }
-.hl-beam.right { right: 88px; top: 108px; border-right: 120px solid transparent; border-left: 0; border-top: 260px solid rgba(255,200,80,0.07); transform-origin: top left; transform: rotate(18deg); filter: blur(8px); }
-.hl-beam.on { opacity: 1; }
-
-.splash-label {
-  margin-top: 24px; font-size: 3rem; letter-spacing: 8px; color: #fff;
-  text-shadow: 0 0 20px rgba(232,118,26,0.6);
-  opacity: 0; animation: splashLabelIn 1s 1.6s ease forwards;
-}
-.splash-sub {
-  font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 4px;
-  color: rgba(232,118,26,0.8); text-transform: uppercase;
-  opacity: 0; animation: splashLabelIn 1s 2s ease forwards;
-  margin-top: 4px;
-}
-@keyframes splashLabelIn { to { opacity: 1; } }
-
-.splash-enter-btn {
-  margin-top: 32px; background: transparent;
-  border: 1px solid rgba(232,118,26,0.7); color: #fff;
-  padding: 12px 38px; border-radius: 40px; font-size: 14px; font-weight: 600;
-  letter-spacing: 3px; text-transform: uppercase; cursor: pointer;
-  box-shadow: 0 0 18px rgba(232,118,26,0.3);
-  opacity: 0; animation: splashLabelIn 0.8s 2.4s ease forwards;
-  transition: all 0.3s; font-family: 'Inter', sans-serif;
-}
-.splash-enter-btn:hover {
-  background: var(--orange); border-color: var(--orange);
-  box-shadow: 0 0 30px rgba(232,118,26,0.6);
-  transform: scale(1.05);
-}
-
-/* ===== CAR HEADLIGHT NAV ===== */
-.car-nav-wrapper {
-  position: relative; overflow: visible;
-}
-nav {
-  position: relative; z-index: 200;
-}
-/* Nav link LED style */
+/* ========== NAV LED ========== */
 .nav-links a {
-  position: relative; overflow: hidden;
+  position: relative;
 }
-.nav-links a::before {
-  content: ''; position: absolute; bottom: 0; left: 50%; right: 50%;
-  height: 2px; background: var(--orange);
-  box-shadow: 0 0 8px var(--orange), 0 0 16px rgba(232,118,26,0.5);
-  transition: left 0.3s ease, right 0.3s ease;
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 50%; right: 50%; height: 2px;
+  background: #E8761A;
+  box-shadow: 0 0 8px #E8761A;
+  transition: left 0.3s, right 0.3s; border-radius: 2px;
 }
-.nav-links a:hover::before, .nav-links a.active::before {
-  left: 8px; right: 8px;
-}
-/* Car front decoration under nav */
-.nav-car-front {
-  width: 100%; height: 6px;
+.nav-links a:hover::after, .nav-links a.active::after { left: 8px; right: 8px; }
+.nav-led-bar {
+  height: 4px; position: sticky; top: 60px; z-index: 199;
   background: linear-gradient(to right,
-    transparent 0%,
-    transparent 8%,
-    var(--orange) 15%,
-    #ffcc44 20%,
-    rgba(255,220,120,0.9) 22%,
-    rgba(255,220,120,0.2) 25%,
-    transparent 35%,
-    transparent 65%,
-    rgba(255,220,120,0.2) 75%,
-    rgba(255,220,120,0.9) 78%,
-    #ffcc44 80%,
-    var(--orange) 85%,
-    transparent 92%,
-    transparent 100%
-  );
-  box-shadow: 0 0 12px rgba(255,180,50,0.4), 0 0 28px rgba(232,118,26,0.2);
-  position: sticky; top: 60px; z-index: 199;
-}
-/* Headlight pulse on nav item hover */
-@keyframes headlightPulse {
-  0%,100% { box-shadow: 0 0 6px var(--orange); }
-  50% { box-shadow: 0 0 16px var(--orange), 0 0 32px rgba(232,118,26,0.4); }
-}
-.nav-links a:hover {
-  animation: headlightPulse 1.2s infinite;
+    transparent 5%, #E8761A 14%, #ffcc44 18%, rgba(255,210,100,0.3) 22%,
+    transparent 32%, transparent 68%,
+    rgba(255,210,100,0.3) 78%, #ffcc44 82%, #E8761A 86%, transparent 95%);
+  box-shadow: 0 0 14px rgba(232,118,26,0.4);
 }
 
-/* ===== CURSOR HEADLIGHT EFFECT ===== */
-#cursor-light {
+/* ========== CURSOR GLOW ========== */
+#cur-glow {
   position: fixed; pointer-events: none; z-index: 9000;
-  width: 500px; height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center,
-    rgba(255,200,80,0.06) 0%,
-    rgba(232,118,26,0.03) 30%,
-    transparent 70%
-  );
+  width: 420px; height: 420px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,180,60,0.07) 0%, rgba(232,118,26,0.03) 35%, transparent 70%);
   transform: translate(-50%, -50%);
-  transition: left 0.08s ease, top 0.08s ease;
   mix-blend-mode: screen;
-}
-/* Left headlight beam */
-#cursor-light-left, #cursor-light-right {
-  position: fixed; pointer-events: none; z-index: 8999;
-  opacity: 0.45; transition: left 0.08s ease, top 0.08s ease;
-}
-#cursor-light-left {
-  width: 0; height: 0;
-  border-left: 0; border-right: 180px solid transparent;
-  border-top: 380px solid rgba(255,220,100,0.04);
-  filter: blur(10px);
-  transform-origin: top left;
-}
-#cursor-light-right {
-  width: 0; height: 0;
-  border-right: 0; border-left: 180px solid transparent;
-  border-top: 380px solid rgba(255,220,100,0.04);
-  filter: blur(10px);
-  transform-origin: top right;
+  transition: left 0.06s, top 0.06s;
+  will-change: left, top;
 }
 
-/* ===== TIKTOK WIDGET ===== */
-#tiktok-widget {
-  position: fixed; bottom: 20px; right: 20px; z-index: 8888;
-  width: 300px; border-radius: 16px;
-  background: #111; border: 1px solid rgba(232,118,26,0.5);
-  box-shadow: 0 0 24px rgba(232,118,26,0.2), 0 8px 32px rgba(0,0,0,0.6);
-  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-  overflow: hidden;
+/* ========== TIKTOK WIDGET ========== */
+#tt-widget {
+  position: fixed; bottom: 20px; right: 20px; z-index: 9100;
+  width: 290px; border-radius: 16px; overflow: hidden;
+  background: #0e0e0e; border: 1px solid rgba(232,118,26,0.45);
+  box-shadow: 0 0 24px rgba(232,118,26,0.18), 0 8px 32px rgba(0,0,0,0.7);
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease, width 0.3s;
+  font-family: 'Inter', sans-serif;
 }
-#tiktok-widget.minimized { width: 200px; }
-#tiktok-widget.closed { display: none; }
-.tiktok-header {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 14px; background: rgba(0,0,0,0.4);
-  border-bottom: 1px solid rgba(232,118,26,0.3);
-  cursor: move;
+#tt-widget.visible { opacity: 1; transform: translateY(0); }
+#tt-widget.mini #tt-body { display: none; }
+#tt-widget.gone { display: none; }
+.tt-head {
+  display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+  background: rgba(0,0,0,0.5); border-bottom: 1px solid rgba(232,118,26,0.25);
 }
-.tiktok-header .tt-logo { font-size: 18px; }
-.tiktok-header .tt-title { flex: 1; font-size: 13px; font-weight: 700; color: #fff; font-family: 'Inter', sans-serif; }
-.tt-btn {
-  background: none; border: none; color: rgba(255,255,255,0.6);
-  font-size: 15px; cursor: pointer; padding: 2px 5px;
-  border-radius: 4px; transition: all 0.2s; line-height: 1;
-}
-.tt-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
-.tiktok-body { padding: 14px; }
-.tiktok-body.hidden { display: none; }
-.tt-profile-link {
+.tt-head-logo { font-size: 17px; }
+.tt-head-title { flex:1; font-size: 13px; font-weight: 700; color: #fff; }
+.tt-dot { width: 7px; height: 7px; border-radius: 50%; background: #ff4444; animation: ttBlink 1.4s infinite; }
+@keyframes ttBlink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.tt-ctrl { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 15px; cursor: pointer; padding: 2px 6px; border-radius: 4px; transition: all 0.2s; }
+.tt-ctrl:hover { background: rgba(255,255,255,0.1); color: #fff; }
+#tt-body { padding: 14px; }
+.tt-profile {
   display: flex; align-items: center; gap: 10px;
   padding: 10px 12px; border-radius: 12px;
-  background: linear-gradient(135deg, rgba(232,118,26,0.15), rgba(0,0,0,0.3));
-  border: 1px solid rgba(232,118,26,0.35);
-  text-decoration: none; margin-bottom: 12px;
-  transition: all 0.2s;
+  background: linear-gradient(135deg, rgba(232,118,26,0.12), rgba(0,0,0,0.2));
+  border: 1px solid rgba(232,118,26,0.3); text-decoration: none;
+  transition: all 0.2s; margin-bottom: 12px;
 }
-.tt-profile-link:hover {
-  background: rgba(232,118,26,0.25);
-  box-shadow: 0 0 16px rgba(232,118,26,0.2);
+.tt-profile:hover { background: rgba(232,118,26,0.22); box-shadow: 0 0 14px rgba(232,118,26,0.18); }
+.tt-ava { width: 42px; height: 42px; border-radius: 50%; background: #E8761A; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.tt-pname { font-size: 13px; font-weight: 700; color: #fff; }
+.tt-phandle { font-size: 11px; color: rgba(232,118,26,0.9); margin-top: 2px; }
+.tt-lbl { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+.tt-cards { display: flex; flex-direction: column; gap: 7px; }
+.tt-card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03); text-decoration: none; transition: all 0.2s;
 }
-.tt-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-.tt-info .tt-name { font-size: 13px; font-weight: 700; color: #fff; font-family: 'Inter', sans-serif; }
-.tt-info .tt-handle { font-size: 11px; color: rgba(232,118,26,0.8); font-family: 'Inter', sans-serif; }
-.tt-videos-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; font-family: 'Inter', sans-serif; }
-.tt-video-cards { display: flex; flex-direction: column; gap: 8px; }
-.tt-video-card {
-  display: flex; align-items: center; gap: 10px; padding: 8px 10px;
-  border-radius: 10px; border: 1px solid rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.04); text-decoration: none;
-  transition: all 0.2s;
-}
-.tt-video-card:hover { border-color: rgba(232,118,26,0.4); background: rgba(232,118,26,0.08); }
-.tt-video-thumb { width: 44px; height: 58px; border-radius: 6px; background: linear-gradient(135deg, #1a1a1a, #2a2a2a); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-.tt-video-info .tt-video-title { font-size: 12px; color: #fff; font-family: 'Inter', sans-serif; line-height: 1.4; }
-.tt-video-info .tt-video-views { font-size: 11px; color: var(--orange); margin-top: 3px; font-family: 'Inter', sans-serif; }
-.tt-open-app {
+.tt-card:hover { border-color: rgba(232,118,26,0.4); background: rgba(232,118,26,0.07); }
+.tt-thumb { width: 42px; height: 56px; border-radius: 6px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.tt-card-title { font-size: 12px; color: #fff; line-height: 1.4; }
+.tt-card-sub { font-size: 11px; color: #E8761A; margin-top: 3px; }
+.tt-open {
   display: block; text-align: center; margin-top: 12px;
   padding: 9px; border-radius: 10px; font-size: 12px; font-weight: 700;
-  background: var(--orange); color: #fff; text-decoration: none;
-  transition: all 0.2s; font-family: 'Inter', sans-serif;
-  letter-spacing: 0.5px;
+  background: #E8761A; color: #fff; text-decoration: none;
+  transition: all 0.2s; letter-spacing: 0.5px;
 }
-.tt-open-app:hover { background: var(--orange-dark); box-shadow: 0 0 16px rgba(232,118,26,0.4); }
-/* Pulsing dot */
-.tt-live-dot {
-  width: 7px; height: 7px; border-radius: 50%; background: #ff4d4d;
-  animation: ttPulse 1.5s infinite; flex-shrink: 0;
-}
-@keyframes ttPulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.7); } }
+.tt-open:hover { background: #C05A0E; box-shadow: 0 0 18px rgba(232,118,26,0.35); }
+</style>
+</head>
+<body>
 
-
-<!-- ===== SPLASH SCREEN ===== -->
-<div id="splash-screen" onclick="enterSite()">
-  <div class="splash-ground"></div>
-  <div class="splash-glow-road" id="splash-road"></div>
-  <div class="splash-car-wrap">
-    <div class="hl-glow left" id="hl-left"></div>
-    <div class="hl-glow right" id="hl-right"></div>
-    <div class="hl-beam left" id="beam-left"></div>
-    <div class="hl-beam right" id="beam-right"></div>
-    <!-- Audi e-tron GT front SVG -->
-    <svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;filter:drop-shadow(0 20px 40px rgba(0,0,0,0.8))">
-      <!-- Body main shape -->
-      <path d="M30 230 Q50 200 80 185 L100 170 Q140 155 200 148 L260 145 L320 148 Q380 155 420 170 L440 185 Q470 200 490 230 L500 260 L20 260 Z" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1"/>
-      <!-- Hood -->
-      <path d="M90 170 Q170 130 260 125 Q350 130 430 170 L420 175 Q350 145 260 140 Q170 145 100 175 Z" fill="#141414" stroke="#252525" stroke-width="1"/>
-      <!-- Windshield lower edge -->
-      <path d="M95 175 Q175 145 260 140 Q345 145 425 175" fill="none" stroke="#333" stroke-width="2"/>
-      <!-- Front bumper lower -->
-      <path d="M55 215 Q90 200 150 195 L200 192 L260 190 L320 192 L370 195 Q430 200 465 215 L470 240 L50 240 Z" fill="#111" stroke="#222" stroke-width="1"/>
-      <!-- Center grille - honeycomb style -->
-      <rect x="185" y="210" width="150" height="50" rx="4" fill="#0a0a0a" stroke="rgba(232,118,26,0.6)" stroke-width="1.5"/>
-      <!-- Grille lines vertical -->
-      <line x1="210" y1="210" x2="210" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
-      <line x1="230" y1="210" x2="230" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
-      <line x1="250" y1="210" x2="250" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
-      <line x1="270" y1="210" x2="270" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
-      <line x1="290" y1="210" x2="290" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
-      <line x1="310" y1="210" x2="310" y2="260" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
-      <!-- Grille lines horizontal -->
-      <line x1="185" y1="222" x2="335" y2="222" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
-      <line x1="185" y1="235" x2="335" y2="235" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
-      <line x1="185" y1="248" x2="335" y2="248" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
-      <!-- Center Audi rings emblem -->
-      <circle cx="240" cy="235" r="8" fill="none" stroke="#888" stroke-width="1.5"/>
-      <circle cx="252" cy="235" r="8" fill="none" stroke="#888" stroke-width="1.5"/>
-      <circle cx="264" cy="235" r="8" fill="none" stroke="#888" stroke-width="1.5"/>
-      <circle cx="276" cy="235" r="8" fill="none" stroke="#888" stroke-width="1.5"/>
-      <!-- LEFT headlight assembly -->
-      <g id="svg-hl-left">
-        <path d="M70 185 Q90 178 130 176 L155 175 L158 195 L140 198 Q105 200 78 208 L68 210 Z" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1"/>
-        <!-- DRL strip -->
-        <path d="M78 186 Q100 180 135 178 L152 178" fill="none" stroke="rgba(255,220,100,0.15)" stroke-width="3" stroke-linecap="round" id="drl-left"/>
-        <!-- Main light unit -->
-        <ellipse cx="115" cy="190" rx="30" ry="9" fill="#0a0a0a" stroke="#222" stroke-width="1"/>
-        <!-- Inner light -->
-        <ellipse cx="115" cy="190" rx="16" ry="5" fill="#111" id="hl-inner-left"/>
-        <!-- Light lines  -->
-        <line x1="95" y1="188" x2="135" y2="188" stroke="rgba(255,220,100,0.08)" stroke-width="1" id="hl-line-left"/>
-      </g>
-      <!-- RIGHT headlight assembly -->
-      <g id="svg-hl-right">
-        <path d="M450 185 Q430 178 390 176 L365 175 L362 195 L380 198 Q415 200 442 208 L452 210 Z" fill="#0d0d0d" stroke="#1e1e1e" stroke-width="1"/>
-        <!-- DRL strip -->
-        <path d="M442 186 Q420 180 385 178 L368 178" fill="none" stroke="rgba(255,220,100,0.15)" stroke-width="3" stroke-linecap="round" id="drl-right"/>
-        <!-- Main light unit -->
-        <ellipse cx="405" cy="190" rx="30" ry="9" fill="#0a0a0a" stroke="#222" stroke-width="1"/>
-        <!-- Inner light -->
-        <ellipse cx="405" cy="190" rx="16" ry="5" fill="#111" id="hl-inner-right"/>
-        <line x1="385" y1="188" x2="425" y2="188" stroke="rgba(255,220,100,0.08)" stroke-width="1" id="hl-line-right"/>
-      </g>
-      <!-- Side air intakes -->
-      <path d="M55 215 Q70 210 80 212 L82 228 L52 228 Z" fill="#0a0a0a" stroke="#1e1e1e" stroke-width="1"/>
-      <path d="M465 215 Q450 210 440 212 L438 228 L468 228 Z" fill="#0a0a0a" stroke="#1e1e1e" stroke-width="1"/>
-      <!-- Lower lip / splitter -->
-      <path d="M45 255 L475 255 L475 265 Q260 270 45 265 Z" fill="#0f0f0f" stroke="#1a1a1a" stroke-width="1"/>
-      <!-- LED accent line connecting headlights -->
-      <path d="M158 182 L185 208 M335 208 L362 182" fill="none" stroke="rgba(232,118,26,0.2)" stroke-width="1.5" id="led-accent"/>
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sp-glow" id="sp-glow"></div>
+  <div class="sp-car">
+    <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- main body -->
+      <path d="M35 220 Q55 195 85 182 L110 170 Q155 155 250 148 Q345 155 390 170 L415 182 Q445 195 465 220 L478 252 L22 252 Z" fill="#181818" stroke="#282828" stroke-width="1.5"/>
+      <!-- hood -->
+      <path d="M95 172 Q175 132 250 128 Q325 132 405 172 L395 178 Q320 148 250 144 Q180 148 105 178 Z" fill="#141414"/>
+      <!-- bumper lower -->
+      <path d="M58 210 Q100 198 170 194 L250 192 L330 194 Q400 198 442 210 L448 238 L52 238 Z" fill="#101010" stroke="#1e1e1e" stroke-width="1"/>
+      <!-- CENTER GRILLE — clickable -->
+      <rect x="188" y="208" width="124" height="46" rx="5" fill="#080808" stroke="rgba(232,118,26,0.7)" stroke-width="1.5"
+        onclick="closeSplash()" id="grille-btn"
+        style="cursor:pointer;transition:stroke 0.3s,filter 0.3s"
+        onmouseenter="this.style.stroke='#ffcc44';this.style.filter='drop-shadow(0 0 10px rgba(255,200,60,0.9))'"
+        onmouseleave="this.style.stroke='rgba(232,118,26,0.7)';this.style.filter='none'"/>
+      <!-- Larger invisible hit zone over grille -->
+      <rect x="175" y="198" width="150" height="64" rx="6" fill="transparent" onclick="closeSplash()" style="cursor:pointer"/>
+      <line x1="210" y1="208" x2="210" y2="254" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="228" y1="208" x2="228" y2="254" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="246" y1="208" x2="246" y2="254" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="264" y1="208" x2="264" y2="254" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="282" y1="208" x2="282" y2="254" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="300" y1="208" x2="300" y2="254" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="188" y1="221" x2="312" y2="221" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="188" y1="234" x2="312" y2="234" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <line x1="188" y1="247" x2="312" y2="247" stroke="rgba(232,118,26,0.3)" stroke-width="0.8"/>
+      <!-- rings -->
+      <circle cx="230" cy="231" r="8" fill="none" stroke="#666" stroke-width="1.5"/>
+      <circle cx="243" cy="231" r="8" fill="none" stroke="#666" stroke-width="1.5"/>
+      <circle cx="257" cy="231" r="8" fill="none" stroke="#666" stroke-width="1.5"/>
+      <circle cx="270" cy="231" r="8" fill="none" stroke="#666" stroke-width="1.5"/>
+      <!-- LEFT HEADLIGHT -->
+      <path d="M72 183 Q98 176 138 174 L158 173 L160 196 L142 198 Q108 200 80 208 L68 210 Z" fill="#0c0c0c" stroke="#1c1c1c" stroke-width="1"/>
+      <path id="drl-l" d="M80 184 Q105 178 138 176 L155 176" fill="none" stroke="rgba(255,210,100,0.08)" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="116" cy="188" rx="28" ry="8" fill="#090909" stroke="#1e1e1e" stroke-width="1"/>
+      <ellipse id="hli-l" cx="116" cy="188" rx="14" ry="4" fill="#111"/>
+      <!-- RIGHT HEADLIGHT -->
+      <path d="M428 183 Q402 176 362 174 L342 173 L340 196 L358 198 Q392 200 420 208 L432 210 Z" fill="#0c0c0c" stroke="#1c1c1c" stroke-width="1"/>
+      <path id="drl-r" d="M420 184 Q395 178 362 176 L345 176" fill="none" stroke="rgba(255,210,100,0.08)" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="384" cy="188" rx="28" ry="8" fill="#090909" stroke="#1e1e1e" stroke-width="1"/>
+      <ellipse id="hli-r" cx="384" cy="188" rx="14" ry="4" fill="#111"/>
+      <!-- LED accent connector -->
+      <path id="led-acc" d="M160 180 L188 208 M312 208 L340 180" fill="none" stroke="rgba(232,118,26,0.1)" stroke-width="1.5"/>
+      <!-- splitter -->
+      <path d="M42 250 L458 250 L460 260 Q250 265 40 260 Z" fill="#0a0a0a"/>
     </svg>
+    <!-- glow overlays (positioned over SVG) -->
+    <div id="hl-gl-l" style="position:absolute;top:60%;left:12%;width:100px;height:50px;border-radius:50%;opacity:0;background:radial-gradient(ellipse,rgba(255,210,80,0.9),rgba(232,118,26,0.4) 40%,transparent 75%);box-shadow:0 0 50px 20px rgba(255,180,50,0.5);transition:opacity 1s ease;pointer-events:none;transform:translateY(-50%)"></div>
+    <div id="hl-gl-r" style="position:absolute;top:60%;right:12%;width:100px;height:50px;border-radius:50%;opacity:0;background:radial-gradient(ellipse,rgba(255,210,80,0.9),rgba(232,118,26,0.4) 40%,transparent 75%);box-shadow:0 0 50px 20px rgba(255,180,50,0.5);transition:opacity 1s ease;pointer-events:none;transform:translateY(-50%)"></div>
   </div>
-  <div class="splash-label">АВТО <span style="color:var(--orange)">МІКС</span></div>
-  <div class="splash-sub">Натисніть, щоб увійти</div>
-  <button class="splash-enter-btn" onclick="enterSite()">⚡ ВІДКРИТИ САЙТ</button>
+  <div class="sp-title" id="sp-title">АВТО <b>МІКС</b></div>
+  <div class="sp-sub" id="sp-sub">Авто в наявності · Автовикуп · Trade-IN</div>
+  <div class="sp-hint" id="sp-btn">👆 Натисніть на решітку авто</div>
 </div>
 
-<!-- ===== CURSOR HEADLIGHT ===== -->
-<div id="cursor-light"></div>
-<div id="cursor-light-left"></div>
-<div id="cursor-light-right"></div>
+<!-- CURSOR GLOW -->
+<div id="cur-glow"></div>
 
-<!-- ===== TIKTOK WIDGET ===== -->
-<div id="tiktok-widget">
-  <div class="tiktok-header" id="tt-header">
-    <div class="tt-logo">🎵</div>
-    <div class="tt-title">TikTok · АВТО МІКС</div>
-    <div class="tt-live-dot"></div>
-    <button class="tt-btn" onclick="minimizeTT()" title="Згорнути">—</button>
-    <button class="tt-btn" onclick="closeTT()" title="Закрити">✕</button>
+<!-- TIKTOK WIDGET -->
+<div id="tt-widget">
+  <div class="tt-head">
+    <span class="tt-head-logo">🎵</span>
+    <span class="tt-head-title">TikTok · АВТО МІКС</span>
+    <span class="tt-dot"></span>
+    <button class="tt-ctrl" onclick="ttMin()">—</button>
+    <button class="tt-ctrl" onclick="ttClose()">✕</button>
   </div>
-  <div class="tiktok-body" id="tt-body">
-    <a class="tt-profile-link" href="https://www.tiktok.com/@automix_lviv" target="_blank" rel="noopener">
-      <div class="tt-avatar">🚗</div>
-      <div class="tt-info">
-        <div class="tt-name">АВТО МІКС</div>
-        <div class="tt-handle">@automix_lviv</div>
-      </div>
+  <div id="tt-body">
+    <a class="tt-profile" href="https://www.tiktok.com/@automix_lviv" target="_blank">
+      <div class="tt-ava">🚗</div>
+      <div><div class="tt-pname">АВТО МІКС</div><div class="tt-phandle">@automix_lviv</div></div>
     </a>
-    <div class="tt-videos-label">🔥 Наші відео</div>
-    <div class="tt-video-cards">
-      <a class="tt-video-card" href="https://www.tiktok.com/@automix_lviv" target="_blank" rel="noopener">
-        <div class="tt-video-thumb">🚗</div>
-        <div class="tt-video-info">
-          <div class="tt-video-title">Авто зі США — свіжі надходження!</div>
-          <div class="tt-video-views">▶ Дивитися на TikTok</div>
-        </div>
+    <div class="tt-lbl">🔥 Наші відео</div>
+    <div class="tt-cards">
+      <a class="tt-card" href="https://www.tiktok.com/@automix_lviv" target="_blank">
+        <div class="tt-thumb">🚗</div>
+        <div><div class="tt-card-title">Авто зі США — свіжі надходження!</div><div class="tt-card-sub">▶ TikTok</div></div>
       </a>
-      <a class="tt-video-card" href="https://www.tiktok.com/@automix_lviv" target="_blank" rel="noopener">
-        <div class="tt-video-thumb">🔄</div>
-        <div class="tt-video-info">
-          <div class="tt-video-title">Trade-IN — як це працює?</div>
-          <div class="tt-video-views">▶ Дивитися на TikTok</div>
-        </div>
+      <a class="tt-card" href="https://www.tiktok.com/@automix_lviv" target="_blank">
+        <div class="tt-thumb">🔄</div>
+        <div><div class="tt-card-title">Trade-IN — як це працює?</div><div class="tt-card-sub">▶ TikTok</div></div>
       </a>
-      <a class="tt-video-card" href="https://www.tiktok.com/@automix_lviv" target="_blank" rel="noopener">
-        <div class="tt-video-thumb">💰</div>
-        <div class="tt-video-info">
-          <div class="tt-video-title">Автовикуп за 30 хвилин</div>
-          <div class="tt-video-views">▶ Дивитися на TikTok</div>
-        </div>
+      <a class="tt-card" href="https://www.tiktok.com/@automix_lviv" target="_blank">
+        <div class="tt-thumb">💰</div>
+        <div><div class="tt-card-title">Автовикуп за 30 хвилин</div><div class="tt-card-sub">▶ TikTok</div></div>
       </a>
     </div>
-    <a class="tt-open-app" href="https://www.tiktok.com/@automix_lviv" target="_blank" rel="noopener">🎵 Відкрити TikTok профіль</a>
+    <a class="tt-open" href="https://www.tiktok.com/@automix_lviv" target="_blank">🎵 Відкрити TikTok профіль</a>
   </div>
 </div>
 
@@ -722,7 +585,7 @@ nav {
   </div>
 </nav>
 
-<div class="nav-car-front"></div>
+<div class="nav-led-bar"></div>
 
 <!-- Firebase setup notice -->
 <div id="firebase-notice" style="display:none;background:#1a0f00;border-bottom:2px solid var(--orange);padding:12px 20px;font-size:13px;color:#ffcc88;">
@@ -1159,97 +1022,6 @@ nav {
   <div class="lightbox-counter" id="lightbox-counter"></div>
   <div class="lightbox-thumbs" id="lightbox-thumbs"></div>
 </div>
-
-<script>
-// ===== SPLASH =====
-function enterSite() {
-  var splash = document.getElementById('splash-screen');
-  if (!splash) return;
-  splash.style.transition = 'opacity 0.7s ease';
-  splash.style.opacity = '0';
-  setTimeout(function() { splash.style.display = 'none'; }, 750);
-}
-window.enterSite = enterSite;
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Splash headlight sequence
-  var splash = document.getElementById('splash-screen');
-  if (splash) {
-    setTimeout(function() {
-      var drlL = document.getElementById('drl-left');
-      var drlR = document.getElementById('drl-right');
-      var acc = document.getElementById('led-accent');
-      if (drlL) drlL.style.stroke = 'rgba(255,220,100,0.7)';
-      if (drlR) drlR.style.stroke = 'rgba(255,220,100,0.7)';
-      if (acc) acc.style.stroke = 'rgba(232,118,26,0.7)';
-    }, 400);
-    setTimeout(function() {
-      var hlL = document.getElementById('hl-left');
-      var hlIL = document.getElementById('hl-inner-left');
-      var hlLL = document.getElementById('hl-line-left');
-      var beamL = document.getElementById('beam-left');
-      if (hlL) hlL.classList.add('on');
-      if (hlIL) hlIL.style.fill = 'rgba(255,220,100,0.5)';
-      if (hlLL) hlLL.style.stroke = 'rgba(255,220,100,0.7)';
-      if (beamL) beamL.classList.add('on');
-    }, 750);
-    setTimeout(function() {
-      var hlR = document.getElementById('hl-right');
-      var hlIR = document.getElementById('hl-inner-right');
-      var hlLR = document.getElementById('hl-line-right');
-      var beamR = document.getElementById('beam-right');
-      var road = document.getElementById('splash-road');
-      if (hlR) hlR.classList.add('on');
-      if (hlIR) hlIR.style.fill = 'rgba(255,220,100,0.5)';
-      if (hlLR) hlLR.style.stroke = 'rgba(255,220,100,0.7)';
-      if (beamR) beamR.classList.add('on');
-      if (road) road.classList.add('lit');
-    }, 1050);
-  }
-
-  // Cursor headlight
-  var light = document.getElementById('cursor-light');
-  var lLeft = document.getElementById('cursor-light-left');
-  var lRight = document.getElementById('cursor-light-right');
-  if (light) {
-    document.addEventListener('mousemove', function(e) {
-      var x = e.clientX, y = e.clientY;
-      light.style.left = x + 'px';
-      light.style.top = y + 'px';
-      if (lLeft) { lLeft.style.left = (x - 60) + 'px'; lLeft.style.top = y + 'px'; }
-      if (lRight) { lRight.style.left = (x + 60) + 'px'; lRight.style.top = y + 'px'; }
-    });
-  }
-
-  // TikTok widget - show after 3s with slide-in
-  var ttWidget = document.getElementById('tiktok-widget');
-  if (ttWidget) {
-    ttWidget.style.opacity = '0';
-    ttWidget.style.transform = 'translateY(30px)';
-    ttWidget.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    setTimeout(function() {
-      ttWidget.style.opacity = '1';
-      ttWidget.style.transform = 'translateY(0)';
-    }, 3000);
-  }
-});
-
-// TikTok widget controls
-var _ttMin = false;
-function minimizeTT() {
-  _ttMin = !_ttMin;
-  var w = document.getElementById('tiktok-widget');
-  var b = document.getElementById('tt-body');
-  if (w) w.classList.toggle('minimized', _ttMin);
-  if (b) b.classList.toggle('hidden', _ttMin);
-}
-function closeTT() {
-  var w = document.getElementById('tiktok-widget');
-  if (w) w.classList.add('closed');
-}
-window.minimizeTT = minimizeTT;
-window.closeTT = closeTT;
-</script>
 
 <script type="module">
 // ========== FIREBASE ==========
@@ -2052,7 +1824,6 @@ window.clearHeroBgs = clearHeroBgs;
 window.submitTradein = submitTradein;
 window.submitSearch = submitSearch;
 
-
 // Show setup notice if config not filled
 if (firebaseConfig.apiKey === 'YOUR_API_KEY') {
   document.getElementById('firebase-notice').style.display = 'block';
@@ -2060,6 +1831,73 @@ if (firebaseConfig.apiKey === 'YOUR_API_KEY') {
 
 populateMakes();
 renderPreview();
+</script>
+<script>
+// ---- SPLASH ----
+function closeSplash() {
+  var s = document.getElementById('splash');
+  s.style.opacity = '0';
+  s.style.transition = 'opacity 0.7s ease';
+  setTimeout(function(){ s.style.display = 'none'; }, 750);
+}
+
+(function initSplash(){
+  // sequence: DRL → left HL → right HL + glow road
+  setTimeout(function(){
+    var dl = document.getElementById('drl-l');
+    var dr = document.getElementById('drl-r');
+    var la = document.getElementById('led-acc');
+    if(dl) dl.style.stroke = 'rgba(255,210,100,0.75)';
+    if(dr) dr.style.stroke = 'rgba(255,210,100,0.75)';
+    if(la) la.style.stroke = 'rgba(232,118,26,0.8)';
+  }, 350);
+  setTimeout(function(){
+    var il = document.getElementById('hli-l');
+    var gl = document.getElementById('hl-gl-l');
+    if(il) il.style.fill = 'rgba(255,210,80,0.6)';
+    if(gl) gl.style.opacity = '1';
+  }, 700);
+  setTimeout(function(){
+    var ir = document.getElementById('hli-r');
+    var gr = document.getElementById('hl-gl-r');
+    var glow = document.getElementById('sp-glow');
+    var title = document.getElementById('sp-title');
+    var sub = document.getElementById('sp-sub');
+    var btn = document.getElementById('sp-btn');
+    if(ir) ir.style.fill = 'rgba(255,210,80,0.6)';
+    if(gr) gr.style.opacity = '1';
+    if(glow) glow.classList.add('on');
+    if(title) title.classList.add('on');
+    if(sub) sub.classList.add('on');
+    if(btn) btn.classList.add('on');
+  }, 1000);
+})();
+
+// ---- CURSOR GLOW ----
+(function(){
+  var g = document.getElementById('cur-glow');
+  if(!g) return;
+  document.addEventListener('mousemove', function(e){
+    g.style.left = e.clientX + 'px';
+    g.style.top  = e.clientY + 'px';
+  });
+})();
+
+// ---- TIKTOK ----
+var _ttMini = false;
+function ttMin(){
+  _ttMini = !_ttMini;
+  var w = document.getElementById('tt-widget');
+  var b = document.getElementById('tt-body');
+  w.classList.toggle('mini', _ttMini);
+}
+function ttClose(){
+  document.getElementById('tt-widget').classList.add('gone');
+}
+setTimeout(function(){
+  var w = document.getElementById('tt-widget');
+  if(w) w.classList.add('visible');
+}, 3500);
 </script>
 </body>
 </html>
