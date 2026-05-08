@@ -1160,6 +1160,97 @@ nav {
   <div class="lightbox-thumbs" id="lightbox-thumbs"></div>
 </div>
 
+<script>
+// ===== SPLASH =====
+function enterSite() {
+  var splash = document.getElementById('splash-screen');
+  if (!splash) return;
+  splash.style.transition = 'opacity 0.7s ease';
+  splash.style.opacity = '0';
+  setTimeout(function() { splash.style.display = 'none'; }, 750);
+}
+window.enterSite = enterSite;
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Splash headlight sequence
+  var splash = document.getElementById('splash-screen');
+  if (splash) {
+    setTimeout(function() {
+      var drlL = document.getElementById('drl-left');
+      var drlR = document.getElementById('drl-right');
+      var acc = document.getElementById('led-accent');
+      if (drlL) drlL.style.stroke = 'rgba(255,220,100,0.7)';
+      if (drlR) drlR.style.stroke = 'rgba(255,220,100,0.7)';
+      if (acc) acc.style.stroke = 'rgba(232,118,26,0.7)';
+    }, 400);
+    setTimeout(function() {
+      var hlL = document.getElementById('hl-left');
+      var hlIL = document.getElementById('hl-inner-left');
+      var hlLL = document.getElementById('hl-line-left');
+      var beamL = document.getElementById('beam-left');
+      if (hlL) hlL.classList.add('on');
+      if (hlIL) hlIL.style.fill = 'rgba(255,220,100,0.5)';
+      if (hlLL) hlLL.style.stroke = 'rgba(255,220,100,0.7)';
+      if (beamL) beamL.classList.add('on');
+    }, 750);
+    setTimeout(function() {
+      var hlR = document.getElementById('hl-right');
+      var hlIR = document.getElementById('hl-inner-right');
+      var hlLR = document.getElementById('hl-line-right');
+      var beamR = document.getElementById('beam-right');
+      var road = document.getElementById('splash-road');
+      if (hlR) hlR.classList.add('on');
+      if (hlIR) hlIR.style.fill = 'rgba(255,220,100,0.5)';
+      if (hlLR) hlLR.style.stroke = 'rgba(255,220,100,0.7)';
+      if (beamR) beamR.classList.add('on');
+      if (road) road.classList.add('lit');
+    }, 1050);
+  }
+
+  // Cursor headlight
+  var light = document.getElementById('cursor-light');
+  var lLeft = document.getElementById('cursor-light-left');
+  var lRight = document.getElementById('cursor-light-right');
+  if (light) {
+    document.addEventListener('mousemove', function(e) {
+      var x = e.clientX, y = e.clientY;
+      light.style.left = x + 'px';
+      light.style.top = y + 'px';
+      if (lLeft) { lLeft.style.left = (x - 60) + 'px'; lLeft.style.top = y + 'px'; }
+      if (lRight) { lRight.style.left = (x + 60) + 'px'; lRight.style.top = y + 'px'; }
+    });
+  }
+
+  // TikTok widget - show after 3s with slide-in
+  var ttWidget = document.getElementById('tiktok-widget');
+  if (ttWidget) {
+    ttWidget.style.opacity = '0';
+    ttWidget.style.transform = 'translateY(30px)';
+    ttWidget.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    setTimeout(function() {
+      ttWidget.style.opacity = '1';
+      ttWidget.style.transform = 'translateY(0)';
+    }, 3000);
+  }
+});
+
+// TikTok widget controls
+var _ttMin = false;
+function minimizeTT() {
+  _ttMin = !_ttMin;
+  var w = document.getElementById('tiktok-widget');
+  var b = document.getElementById('tt-body');
+  if (w) w.classList.toggle('minimized', _ttMin);
+  if (b) b.classList.toggle('hidden', _ttMin);
+}
+function closeTT() {
+  var w = document.getElementById('tiktok-widget');
+  if (w) w.classList.add('closed');
+}
+window.minimizeTT = minimizeTT;
+window.closeTT = closeTT;
+</script>
+
 <script type="module">
 // ========== FIREBASE ==========
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
@@ -1961,80 +2052,6 @@ window.clearHeroBgs = clearHeroBgs;
 window.submitTradein = submitTradein;
 window.submitSearch = submitSearch;
 
-
-// ========== SPLASH SCREEN ==========
-(function() {
-  const splash = document.getElementById('splash-screen');
-  if (!splash) return;
-
-  // Animate headlights on
-  setTimeout(() => {
-    // DRL strips first
-    document.getElementById('drl-left').style.stroke = 'rgba(255,220,100,0.6)';
-    document.getElementById('drl-right').style.stroke = 'rgba(255,220,100,0.6)';
-    document.getElementById('led-accent').style.stroke = 'rgba(232,118,26,0.6)';
-  }, 400);
-  setTimeout(() => {
-    document.getElementById('hl-left').classList.add('on');
-    document.getElementById('hl-inner-left').style.fill = 'rgba(255,220,100,0.4)';
-    document.getElementById('hl-line-left').style.stroke = 'rgba(255,220,100,0.6)';
-    document.getElementById('beam-left').classList.add('on');
-  }, 700);
-  setTimeout(() => {
-    document.getElementById('hl-right').classList.add('on');
-    document.getElementById('hl-inner-right').style.fill = 'rgba(255,220,100,0.4)';
-    document.getElementById('hl-line-right').style.stroke = 'rgba(255,220,100,0.6)';
-    document.getElementById('beam-right').classList.add('on');
-    document.getElementById('splash-road').classList.add('lit');
-  }, 1000);
-})();
-
-function enterSite() {
-  const splash = document.getElementById('splash-screen');
-  splash.classList.add('fade-out');
-  setTimeout(() => { splash.style.display = 'none'; }, 750);
-}
-
-// ========== CURSOR HEADLIGHT EFFECT ==========
-(function() {
-  const light = document.getElementById('cursor-light');
-  const lLeft = document.getElementById('cursor-light-left');
-  const lRight = document.getElementById('cursor-light-right');
-  if (!light) return;
-  document.addEventListener('mousemove', (e) => {
-    const x = e.clientX, y = e.clientY;
-    light.style.left = x + 'px';
-    light.style.top = y + 'px';
-    lLeft.style.left = (x - 60) + 'px';
-    lLeft.style.top = y + 'px';
-    lRight.style.left = (x + 60) + 'px';
-    lRight.style.top = y + 'px';
-  });
-})();
-
-// ========== TIKTOK WIDGET ==========
-let ttMinimized = false;
-function minimizeTT() {
-  const widget = document.getElementById('tiktok-widget');
-  const body = document.getElementById('tt-body');
-  ttMinimized = !ttMinimized;
-  widget.classList.toggle('minimized', ttMinimized);
-  body.classList.toggle('hidden', ttMinimized);
-}
-function closeTT() {
-  document.getElementById('tiktok-widget').classList.add('closed');
-}
-
-// Show widget after 3 seconds (not immediately)
-setTimeout(() => {
-  const w = document.getElementById('tiktok-widget');
-  if (w) { w.style.opacity = '0'; w.style.transform = 'translateY(20px)'; w.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; setTimeout(() => { w.style.opacity = '1'; w.style.transform = 'translateY(0)'; }, 50); }
-}, 3000);
-
-// ========== EXPOSE NEW GLOBALS ==========
-window.enterSite = enterSite;
-window.minimizeTT = minimizeTT;
-window.closeTT = closeTT;
 
 // Show setup notice if config not filled
 if (firebaseConfig.apiKey === 'YOUR_API_KEY') {
