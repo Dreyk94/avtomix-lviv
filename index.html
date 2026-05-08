@@ -38,6 +38,33 @@ body.light {
   --nav-bg: rgba(255,255,255,0.97); --footer-bg: #e4e4e4;
   --black: #f2f2f2; --white: #111; --text-muted: #666;
 }
+/* ===== НІЧНЕ ШОСЕ — третя тема ===== */
+body.night {
+  --orange: #9B6BFF;
+  --orange-dark: #7A4FD4;
+  --orange-light: #C8A8FF;
+  --bg: #07050f; --bg2: #0d0a1a; --bg3: #110e20; --bg4: #090715; --bg5: #0f0c1e;
+  --border: #1e1a35; --border2: #1a1630; --border3: #18142e; --border4: #140f28; --border5: #120d24;
+  --text: #e8e0ff; --muted: #7a6fa8; --input-bg: #0d0a1a;
+  --nav-bg: rgba(7,5,15,0.97); --footer-bg: #050410;
+  --black: #07050f; --white: #e8e0ff; --text-muted: #7a6fa8;
+}
+body.night .ticker-wrap { background: #1a0f40; border-bottom-color: #7A4FD4; }
+body.night .nav-led-bar {
+  background: linear-gradient(to right,
+    transparent 5%, #9B6BFF 14%, #C8A8FF 18%, rgba(180,140,255,0.3) 22%,
+    transparent 32%, transparent 68%,
+    rgba(180,140,255,0.3) 78%, #C8A8FF 82%, #9B6BFF 86%, transparent 95%);
+  box-shadow: 0 0 14px rgba(155,107,255,0.5);
+}
+body.night .nav-links a::after { background: #9B6BFF; box-shadow: 0 0 8px #9B6BFF; }
+body.night .step-num { background: #9B6BFF; }
+body.night .filter-btn.active, body.night .filter-btn:hover { background: #9B6BFF; border-color: #9B6BFF; }
+body.night .hero-badge { background: rgba(155,107,255,0.2); border-color: rgba(155,107,255,0.55); color: #C8A8FF; }
+body.night .car-card:hover { border-color: #9B6BFF; }
+body.night #cur-glow {
+  background: radial-gradient(ellipse, rgba(155,107,255,0.09) 0%, rgba(100,60,200,0.04) 35%, transparent 70%);
+}
 body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; }
 
 /* NAV */
@@ -338,6 +365,47 @@ footer b { color: var(--orange); }
   .multi-photo-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
+/* ===== SIDE HEADLIGHT DECORATION ===== */
+.page-hl-deco {
+  position: relative;
+}
+/* Fixed side bars that don't interfere with sticky nav */
+.hl-side-bar {
+  position: fixed; top: 64px; bottom: 0; width: 4px;
+  pointer-events: none; z-index: 50;
+  background: linear-gradient(to bottom,
+    rgba(232,118,26,0.9) 0%,
+    rgba(255,210,60,1) 8%,
+    rgba(255,220,100,0.7) 18%,
+    rgba(232,118,26,0.4) 40%,
+    transparent 100%
+  );
+  box-shadow: 0 0 22px 6px rgba(232,118,26,0.55), 0 0 55px 14px rgba(255,180,50,0.22);
+  animation: hlSidePulse 2.8s ease-in-out infinite;
+  display: none;
+}
+.hl-side-bar.left  { left: 0; }
+.hl-side-bar.right { right: 0; animation-delay: 0.5s; }
+.page-hl-deco.active ~ .hl-side-bar,
+body:has(#page-home.active) .hl-side-bar,
+body:has(#page-contact.active) .hl-side-bar { display: block; }
+@keyframes hlSidePulse {
+  0%,100% { opacity: 0.6; }
+  50%      { opacity: 1; box-shadow: 0 0 32px 10px rgba(255,200,60,0.75), 0 0 75px 22px rgba(232,118,26,0.32); }
+}
+body.night .hl-side-bar {
+  background: linear-gradient(to bottom,
+    rgba(100,80,255,0.9) 0%, rgba(160,100,255,1) 8%,
+    rgba(120,80,255,0.6) 18%, rgba(80,50,200,0.3) 40%, transparent 100%
+  );
+  box-shadow: 0 0 22px 6px rgba(120,80,255,0.6), 0 0 55px 14px rgba(100,50,200,0.25);
+  animation: hlSidePulseNight 2.8s ease-in-out infinite;
+}
+@keyframes hlSidePulseNight {
+  0%,100% { opacity: 0.6; }
+  50%      { opacity: 1; box-shadow: 0 0 32px 10px rgba(160,100,255,0.8), 0 0 75px 22px rgba(100,50,200,0.35); }
+}
+
 /* ========== SPLASH ========== */
 #splash {
   position: fixed; inset: 0; z-index: 99999;
@@ -476,7 +544,7 @@ footer b { color: var(--orange); }
 <body>
 
 <!-- SPLASH -->
-<div id="splash">
+<div id="splash" onclick="closeSplash()" style="cursor:pointer">
   <div class="sp-glow" id="sp-glow"></div>
   <div class="sp-car">
     <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
@@ -524,16 +592,20 @@ footer b { color: var(--orange); }
       <path d="M42 250 L458 250 L460 260 Q250 265 40 260 Z" fill="#0a0a0a"/>
     </svg>
     <!-- glow overlays (positioned over SVG) -->
-    <div id="hl-gl-l" style="position:absolute;top:60%;left:12%;width:100px;height:50px;border-radius:50%;opacity:0;background:radial-gradient(ellipse,rgba(255,210,80,0.9),rgba(232,118,26,0.4) 40%,transparent 75%);box-shadow:0 0 50px 20px rgba(255,180,50,0.5);transition:opacity 1s ease;pointer-events:none;transform:translateY(-50%)"></div>
-    <div id="hl-gl-r" style="position:absolute;top:60%;right:12%;width:100px;height:50px;border-radius:50%;opacity:0;background:radial-gradient(ellipse,rgba(255,210,80,0.9),rgba(232,118,26,0.4) 40%,transparent 75%);box-shadow:0 0 50px 20px rgba(255,180,50,0.5);transition:opacity 1s ease;pointer-events:none;transform:translateY(-50%)"></div>
+    <div id="hl-gl-l" style="position:absolute;top:58%;left:8%;width:160px;height:80px;border-radius:50%;opacity:0;background:radial-gradient(ellipse,rgba(255,230,100,1) 0%,rgba(255,180,40,0.85) 20%,rgba(232,118,26,0.5) 45%,transparent 75%);box-shadow:0 0 80px 35px rgba(255,190,50,0.7),0 0 140px 60px rgba(232,118,26,0.35);transition:opacity 1.2s ease;pointer-events:none;transform:translateY(-50%)"></div>
+    <div id="hl-gl-r" style="position:absolute;top:58%;right:8%;width:160px;height:80px;border-radius:50%;opacity:0;background:radial-gradient(ellipse,rgba(255,230,100,1) 0%,rgba(255,180,40,0.85) 20%,rgba(232,118,26,0.5) 45%,transparent 75%);box-shadow:0 0 80px 35px rgba(255,190,50,0.7),0 0 140px 60px rgba(232,118,26,0.35);transition:opacity 1.2s ease;pointer-events:none;transform:translateY(-50%)"></div>
+    <!-- extra wide floor beam -->
+    <div id="hl-floor" style="position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:110%;height:120px;opacity:0;background:radial-gradient(ellipse 80% 100% at 50% 0%,rgba(255,180,50,0.18),transparent 80%);filter:blur(18px);transition:opacity 1.4s ease;pointer-events:none"></div>
   </div>
   <div class="sp-title" id="sp-title">АВТО <b>МІКС</b></div>
   <div class="sp-sub" id="sp-sub">Авто в наявності · Автовикуп · Trade-IN</div>
-  <div class="sp-hint" id="sp-btn">👆 Натисніть на решітку авто</div>
+
 </div>
 
 <!-- CURSOR GLOW -->
 <div id="cur-glow"></div>
+<div class="hl-side-bar left" id="hl-bar-l"></div>
+<div class="hl-side-bar right" id="hl-bar-r"></div>
 
 <!-- TIKTOK WIDGET -->
 <div id="tt-widget">
@@ -545,26 +617,26 @@ footer b { color: var(--orange); }
     <button class="tt-ctrl" onclick="ttClose()">✕</button>
   </div>
   <div id="tt-body">
-    <a class="tt-profile" href="https://www.tiktok.com/@automix_lviv" target="_blank">
+    <a class="tt-profile" href="https://www.tiktok.com/@romantaras777" target="_blank">
       <div class="tt-ava">🚗</div>
-      <div><div class="tt-pname">АВТО МІКС</div><div class="tt-phandle">@automix_lviv</div></div>
+      <div><div class="tt-pname">АВТО МІКС</div><div class="tt-phandle">@romantaras777</div></div>
     </a>
     <div class="tt-lbl">🔥 Наші відео</div>
     <div class="tt-cards">
-      <a class="tt-card" href="https://www.tiktok.com/@automix_lviv" target="_blank">
+      <a class="tt-card" href="https://www.tiktok.com/@romantaras777" target="_blank">
         <div class="tt-thumb">🚗</div>
         <div><div class="tt-card-title">Авто зі США — свіжі надходження!</div><div class="tt-card-sub">▶ TikTok</div></div>
       </a>
-      <a class="tt-card" href="https://www.tiktok.com/@automix_lviv" target="_blank">
+      <a class="tt-card" href="https://www.tiktok.com/@romantaras777" target="_blank">
         <div class="tt-thumb">🔄</div>
         <div><div class="tt-card-title">Trade-IN — як це працює?</div><div class="tt-card-sub">▶ TikTok</div></div>
       </a>
-      <a class="tt-card" href="https://www.tiktok.com/@automix_lviv" target="_blank">
+      <a class="tt-card" href="https://www.tiktok.com/@romantaras777" target="_blank">
         <div class="tt-thumb">💰</div>
         <div><div class="tt-card-title">Автовикуп за 30 хвилин</div><div class="tt-card-sub">▶ TikTok</div></div>
       </a>
     </div>
-    <a class="tt-open" href="https://www.tiktok.com/@automix_lviv" target="_blank">🎵 Відкрити TikTok профіль</a>
+    <a class="tt-open" href="https://www.tiktok.com/@romantaras777" target="_blank">🎵 Відкрити TikTok профіль</a>
   </div>
 </div>
 
@@ -617,7 +689,7 @@ footer b { color: var(--orange); }
 </div>
 
 <!-- HOME -->
-<div class="page active" id="page-home">
+<div class="page active page-hl-deco" id="page-home">
   <div class="hero">
     <div class="hero-slideshow" id="hero-slideshow">
       <div class="hero-slide active" id="hero-slide-0">
@@ -855,7 +927,7 @@ footer b { color: var(--orange); }
 </div>
 
 <!-- CONTACTS -->
-<div class="page" id="page-contact">
+<div class="page page-hl-deco" id="page-contact">
   <div class="contact-hero">
     <h2>Контакти <b style="color:var(--orange)">АВТО МІКС</b></h2>
     <p>Зв'яжіться зручним способом — відповімо швидко</p>
@@ -1198,10 +1270,13 @@ let lbPhotos = [], lbIdx = 0;
 // ========== INIT ==========
 (function() {
   const saved = localStorage.getItem('automix-theme');
+  const btn = document.getElementById('theme-btn');
   if (saved === 'light') {
     document.body.classList.add('light');
-    const btn = document.getElementById('theme-btn');
-    if (btn) btn.textContent = '☀️';
+    if (btn) { btn.textContent = '☀️'; btn.title = 'Переключити на нічне шосе'; }
+  } else if (saved === 'night') {
+    document.body.classList.add('night');
+    if (btn) { btn.textContent = '🔮'; btn.title = 'Переключити на темну тему'; }
   }
 })();
 
@@ -1314,14 +1389,25 @@ function nextHeroSlide() {
 function toggleTheme() {
   const body = document.body;
   const btn = document.getElementById('theme-btn');
-  if (body.classList.contains('light')) {
-    body.classList.remove('light');
-    btn.textContent = '🌙';
-    localStorage.setItem('automix-theme', 'dark');
-  } else {
+  if (!body.classList.contains('light') && !body.classList.contains('night')) {
+    // dark → light
     body.classList.add('light');
     btn.textContent = '☀️';
+    btn.title = 'Переключити на нічне шосе';
     localStorage.setItem('automix-theme', 'light');
+  } else if (body.classList.contains('light')) {
+    // light → night
+    body.classList.remove('light');
+    body.classList.add('night');
+    btn.textContent = '🔮';
+    btn.title = 'Переключити на темну тему';
+    localStorage.setItem('automix-theme', 'night');
+  } else {
+    // night → dark
+    body.classList.remove('night');
+    btn.textContent = '🌙';
+    btn.title = 'Переключити на світлу тему';
+    localStorage.setItem('automix-theme', 'dark');
   }
 }
 
@@ -1351,6 +1437,12 @@ function showPage(name) {
   if (name==='cars') renderCars();
   if (name==='home') renderPreview();
   window.scrollTo(0,0);
+  // Side headlight bars: show only on home & contact
+  var showBars = (name === 'home' || name === 'contact');
+  var bl = document.getElementById('hl-bar-l');
+  var br = document.getElementById('hl-bar-r');
+  if (bl) bl.style.display = showBars ? 'block' : 'none';
+  if (br) br.style.display = showBars ? 'block' : 'none';
 }
 
 // ========== MAKE/MODEL ==========
@@ -1831,6 +1923,13 @@ if (firebaseConfig.apiKey === 'YOUR_API_KEY') {
 
 populateMakes();
 renderPreview();
+// Show side bars on home (default page)
+(function(){
+  var bl = document.getElementById('hl-bar-l');
+  var br = document.getElementById('hl-bar-r');
+  if(bl) bl.style.display = 'block';
+  if(br) br.style.display = 'block';
+})();
 </script>
 <script>
 // ---- SPLASH ----
@@ -1854,22 +1953,22 @@ function closeSplash() {
   setTimeout(function(){
     var il = document.getElementById('hli-l');
     var gl = document.getElementById('hl-gl-l');
-    if(il) il.style.fill = 'rgba(255,210,80,0.6)';
+    if(il) il.style.fill = 'rgba(255,230,100,0.9)';
     if(gl) gl.style.opacity = '1';
   }, 700);
   setTimeout(function(){
     var ir = document.getElementById('hli-r');
     var gr = document.getElementById('hl-gl-r');
+    var floor = document.getElementById('hl-floor');
     var glow = document.getElementById('sp-glow');
     var title = document.getElementById('sp-title');
     var sub = document.getElementById('sp-sub');
-    var btn = document.getElementById('sp-btn');
-    if(ir) ir.style.fill = 'rgba(255,210,80,0.6)';
+    if(ir) ir.style.fill = 'rgba(255,230,100,0.9)';
     if(gr) gr.style.opacity = '1';
+    if(floor) floor.style.opacity = '1';
     if(glow) glow.classList.add('on');
     if(title) title.classList.add('on');
     if(sub) sub.classList.add('on');
-    if(btn) btn.classList.add('on');
   }, 1000);
 })();
 
