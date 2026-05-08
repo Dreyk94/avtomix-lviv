@@ -540,6 +540,30 @@ body.night .hl-side-bar {
 }
 .tt-open:hover { background: #C05A0E; box-shadow: 0 0 18px rgba(232,118,26,0.35); }
 </style>
+  .tt-videos{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  padding-top:10px;
+  scroll-snap-type:x mandatory;
+}
+
+.tt-video{
+  flex:0 0 auto;
+  scroll-snap-align:start;
+}
+
+.tt-video iframe{
+  width:240px;
+  height:430px;
+  border:none;
+  border-radius:16px;
+  background:#111;
+}
+
+.tt-videos::-webkit-scrollbar{
+  display:none;
+}
 </head>
 <body>
 
@@ -622,24 +646,37 @@ body.night .hl-side-bar {
       <div><div class="tt-pname">АВТО МІКС</div><div class="tt-phandle">@romantaras777</div></div>
     </a>
     <div class="tt-lbl">🔥 Наші відео</div>
-    <div class="tt-cards">
-      <a class="tt-card" href="https://www.tiktok.com/@romantaras777" target="_blank">
-        <div class="tt-thumb">🚗</div>
-        <div><div class="tt-card-title">https://www.tiktok.com/@romantaras777/photo/7636877687352577301</div><div class="tt-card-sub">▶ TikTok</div></div>
-      </a>
-      <a class="tt-card" href="https://www.tiktok.com/@romantaras777" target="_blank">
-        <div class="tt-thumb">🔄</div>
-        <div><div class="tt-card-title">Trade-IN — як це працює?</div><div class="tt-card-sub">▶ TikTok</div></div>
-      </a>
-      <a class="tt-card" href="https://www.tiktok.com/@romantaras777" target="_blank">
-        <div class="tt-thumb">💰</div>
-        <div><div class="tt-card-title">Автовикуп за 30 хвилин</div><div class="tt-card-sub">▶ TikTok</div></div>
-      </a>
-    </div>
-    <a class="tt-open" href="https://www.tiktok.com/@romantaras777" target="_blank">🎵 Відкрити TikTok профіль</a>
-  </div>
-</div>
+   <div class="tt-videos">
 
+  <div class="tt-video">
+    <iframe
+      src="https://www.tiktok.com/embed/v2/7636877687352577301"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="tt-video">
+    <iframe
+      src="https://www.tiktok.com/embed/v2/7636899107478588692"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="tt-video">
+    <iframe
+      src="https://www.tiktok.com/embed/v2/7636990596351069460"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="tt-video">
+    <iframe
+      src="https://www.tiktok.com/embed/v2/7636993756033518869"
+      allowfullscreen>
+    </iframe>
+  </div>
+     
+</div>
 <nav>
   <div class="nav-logo" onclick="showPage('home')"><span>АВТО <b>МІКС</b></span></div>
   <div class="nav-links">
